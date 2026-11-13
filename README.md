@@ -68,6 +68,12 @@ Each organ has its own library crate under `crates/`. **Planned** means a docume
 
 `crates/tulpa` is the app entry point; `crates/tulpa-ears-helper` is the future bundled microphone helper. The traits describe initial seams, not a settled wire protocol or async runtime.
 
+## Roadmap
+
+1. **Finish the platform and SSH spike.** Prove protected signing, a pinned real login, permission ownership, pause, and the absence of listening sockets before building full organs.
+2. **Build calls and the meeting assistant first.** Capture the call app's output and the human's microphone as separate labelled streams; diarize speakers locally; send live partial and final transcripts to the agent; show quiet text prompts only to the human; produce notes and action items after the call; join or answer only on an explicit request. See [the calls design](docs/calls.md).
+3. **Then build eyes, hands, voice playback, and the remaining organs.** General streaming and voice output do not precede the meeting workflow.
+
 ## Build
 
 Install stable Rust with `rustfmt` and `clippy`, then run on macOS:
