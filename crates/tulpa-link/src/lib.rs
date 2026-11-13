@@ -1,8 +1,18 @@
 //! One outbound SSH connection carrying a channel for each organ.
 //!
-//! Implementations must verify pinned host keys before opening channels, use
-//! a local protected signer, and choose a LAN or jump-host route at runtime.
-//! No transport implementation is included yet.
+//! The transport spike verifies pinned host keys before authentication, uses a
+//! local protected signer, and supports a single direct-TCP/IP exchange.
+
+#[cfg(target_os = "macos")]
+mod client;
+#[cfg(target_os = "macos")]
+mod signer;
+#[cfg(target_os = "macos")]
+pub use client::{
+    Endpoint, ExchangeConfig, HostKeyError, LinkError, PinnedHostKeyHandler, exchange_line,
+};
+#[cfg(target_os = "macos")]
+pub use signer::{ProtectedP256Signer, SignerError, public_key_from_sec1};
 
 /// Initial capability boundary for the link organ; no implementation is provided.
 pub trait Link {

@@ -1,7 +1,12 @@
 //! Keychain-guarded secret operations without exporting raw keys to the agent.
 //!
-//! Implementations must keep key material behind local protected operations.
-//! No Keychain or Secure Enclave access is implemented yet.
+//! The macOS protected-key implementation exposes only public-key bytes and
+//! signing operations. Private-key export and deletion are deliberately absent.
+
+#[cfg(target_os = "macos")]
+mod macos;
+#[cfg(target_os = "macos")]
+pub use macos::{KeyBackend, KeyError, PlatformError, ProtectedP256Key};
 
 /// Initial capability boundary for the secrets organ; no implementation is provided.
 pub trait Secrets {

@@ -12,3 +12,9 @@ publish.workspace = true
 
 [lints]
 workspace = true
+
+[dependencies]
+p256 = "0.14.0"
+russh = { version = "0.65.1", default-features = false, features = ["ring"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "io-util", "time"] }
+tulpa-secrets = { version = "0.1.0", path = "../tulpa-secrets" }

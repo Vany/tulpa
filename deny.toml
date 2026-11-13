@@ -8,12 +8,17 @@ yanked = "deny"
 ignore = []
 
 [licenses]
-allow = ["MIT"]
+allow = ["MIT", "Apache-2.0", "BSD-3-Clause", "ISC", "Unicode-3.0"]
 confidence-threshold = 0.93
 
 [bans]
 multiple-versions = "deny"
 wildcards = "deny"
+skip = [
+    { crate = "getrandom:0.2.17", reason = "ring 0.17 uses this version alongside the current RustCrypto stack" },
+    { crate = "syn:2.0.119", reason = "russh transitive macros span syn 2 and 3" },
+    { crate = "windows-sys:0.52.0", reason = "ring 0.17 uses this version alongside tokio" },
+]
 
 [sources]
 unknown-registry = "deny"
