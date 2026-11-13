@@ -1,0 +1,66 @@
+# Intended configuration, not yet parsed by the skeleton.
+# Keep real values only in ~/.config/tulpa/config.toml, outside the checkout.
+# Placeholders are deliberately unusable. No organ starts enabled.
+
+[app]
+start_paused = true
+log_directory = "~/Library/Logs/tulpa"
+
+[link]
+enabled = false
+host = "AGENT_HOST"
+user = "AGENT_USER"
+pinned_host_key = "PINNED_SSH_HOST_KEY"
+signing_key_label = "SECURE_ENCLAVE_KEY_LABEL"
+lan_host = "LAN_AGENT_HOST"
+jump_host = "JUMP_HOST"
+jump_user = "JUMP_USER"
+jump_pinned_host_key = "PINNED_JUMP_HOST_KEY"
+
+[hands]
+enabled = false
+allowed_roots = []
+named_commands = []
+tmux_windows = []
+
+[ears]
+enabled = false
+
+[voice]
+enabled = false
+
+[eyes]
+enabled = false
+excluded_windows = []
+camera_on_request = true
+
+[calls]
+enabled = false
+recording = false
+live_assistant = false
+
+[alarm]
+enabled = false
+
+[presence]
+enabled = false
+
+[notify]
+enabled = false
+read_incoming = false
+
+[clip]
+enabled = false
+
+[files]
+enabled = false
+allowed_roots = []
+
+[secrets]
+enabled = false
+
+[health]
+enabled = false
+
+[tray]
+enabled = false

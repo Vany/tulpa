@@ -1,0 +1,10 @@
+/target/
+/.config/
+/config.toml
+/.env
+/.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+.DS_Store
