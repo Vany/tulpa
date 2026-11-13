@@ -13,7 +13,7 @@ use tulpa_secrets::ProtectedP256Key;
 const MAX_REPLY_BYTES: usize = 64 * 1024;
 
 /// A remote TCP endpoint supplied by local configuration or live discovery.
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, serde::Deserialize, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct Endpoint {
     /// A DNS name or IP address. No endpoint is embedded in the repository.

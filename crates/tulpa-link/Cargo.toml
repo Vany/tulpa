@@ -14,7 +14,11 @@ publish.workspace = true
 workspace = true
 
 [dependencies]
+flume = { version = "0.12.0", default-features = false }
+mdns-sd = { version = "0.21.7", default-features = false }
 p256 = "0.14.0"
 russh = { version = "0.65.1", default-features = false, features = ["ring"] }
+serde = { version = "1.0.229", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "io-util", "time"] }
+toml = "1.2.1"
 tulpa-secrets = { version = "0.1.0", path = "../tulpa-secrets" }

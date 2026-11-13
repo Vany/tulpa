@@ -5,12 +5,17 @@
 
 #[cfg(target_os = "macos")]
 mod client;
+mod config;
+mod discovery;
 #[cfg(target_os = "macos")]
 mod signer;
 #[cfg(target_os = "macos")]
 pub use client::{
     Endpoint, ExchangeConfig, HostKeyError, LinkError, PinnedHostKeyHandler, exchange_line,
 };
+pub use config::{ConfigError, LinkConfig, LocalConfig};
+#[cfg(target_os = "macos")]
+pub use discovery::{DiscoveryConfig, DiscoveryError, Route, SelectedEndpoint, discover};
 #[cfg(target_os = "macos")]
 pub use signer::{ProtectedP256Signer, SignerError, public_key_from_sec1};
 
