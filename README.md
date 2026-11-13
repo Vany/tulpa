@@ -12,7 +12,7 @@ Your agent lives on a server. Your world is on your Mac. **tulpa gives one a bod
 
 <!-- Replace the demo placeholder with docs/demo.gif when a working demo exists. -->
 
-**Today:** a dependency-free Rust workspace with organ traits and two inert binaries. All organs are planned. The SSH / Secure Enclave spike comes next; there is no live connection, capture, automation, or app bundle yet.
+**Today:** the transport spike has verified Bonjour-first discovery and live tunnel fallback. The protected-key signer and fail-closed host pinning have unit tests, but real key creation and SSH login await provisioned signing. There is no live agent connection, capture, automation, or app bundle yet.
 
 ## One link. Many organs.
 
@@ -51,7 +51,7 @@ Each organ has its own library crate under `crates/`. **Planned** means a docume
 
 | Organ / crate | Responsibility | Status |
 | --- | --- | --- |
-| `tulpa-link` | One outbound SSH connection, pinned host key, Secure Enclave signing, LAN / jump route | Planned · spike next |
+| `tulpa-link` | One outbound SSH connection, pinned host key, Secure Enclave signing, LAN / tunnel route | Spike · discovery verified; SSH login pending |
 | `tulpa-hands` | Parallel policy-bound shell, files, git, tmux, GUI, and Shortcuts jobs | Planned |
 | `tulpa-ears` | Microphone → VAD → streaming ASR, partial and final transcripts | Planned |
 | `tulpa-voice` | Interruptible playback of incoming TTS audio | Planned |
@@ -92,7 +92,7 @@ cargo deny --locked check
 
 Install the CI-matched dependency checker with `cargo install cargo-deny --version 0.20.2 --locked`. CI runs these checks on a GitHub-hosted macOS runner, with SHA-pinned actions and no repository secrets.
 
-[config.example.toml](config.example.toml) documents the intended configuration. Its values are placeholders and every organ is disabled. Configuration loading is not implemented yet; keep any real configuration outside the checkout.
+[config.example.toml](config.example.toml) documents the intended configuration. Its values are placeholders and every organ is disabled. The transport spike parses the link section from an explicitly supplied local file; keep all real configuration outside the checkout.
 
 ## License
 
