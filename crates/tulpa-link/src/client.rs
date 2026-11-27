@@ -1,14 +1,16 @@
 use std::error::Error;
 use std::fmt;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
-use russh::client::{self, AuthResult, Handler};
-use russh::keys::PublicKeyOrCertificate;
-use russh::keys::ssh_key::PublicKey;
+use russh::client::{self, AuthResult, Handle};
+use russh::keys::agent::{AgentIdentity, client::AgentClient};
+use russh::keys::ssh_key::{HashAlg, PublicKey};
 use russh::{ChannelMsg, Disconnect};
 
-use crate::signer::{ProtectedP256Signer, SignerError};
-use tulpa_secrets::ProtectedP256Key;
+use crate::known_hosts::{KnownHostsHandler, StrictHostKeyChecking, default_known_hosts_path};
+use crate::passphrase::{PassphraseProvider, load_private_key};
+use crate::{IdentitySelection, select_identity_files};
 
 const MAX_REPLY_BYTES: usize = 64 * 1024;
 
@@ -39,123 +41,196 @@ impl Endpoint {
 pub struct ExchangeConfig {
     /// The selected SSH server.
     pub server: Endpoint,
-    /// The SSH user from local configuration.
+    /// The SSH user from local configuration or OpenSSH config.
     pub user: String,
-    /// An OpenSSH host public key. Empty or mismatched values are rejected.
-    pub pinned_host_key: String,
     /// The target reached through the single `direct-tcpip` channel.
     pub target: Endpoint,
+    /// The home containing `.ssh/config`, identity files, and `known_hosts`.
+    pub home: PathBuf,
+    /// OpenSSH's unknown-host behavior. Changed keys are always rejected.
+    pub strict_host_key_checking: StrictHostKeyChecking,
+    /// The fully resolved route, identity, and proxy settings.
+    pub resolved: crate::ResolvedHost,
 }
 
 impl ExchangeConfig {
-    /// Creates the configuration for one direct-TCP/IP exchange.
+    /// Creates an OpenSSH-compatible exchange configuration with `ask` host checking.
     #[must_use]
-    pub fn new(
-        server: Endpoint,
-        user: impl Into<String>,
-        pinned_host_key: impl Into<String>,
-        target: Endpoint,
-    ) -> Self {
+    pub fn new(server: Endpoint, user: impl Into<String>, target: Endpoint, home: PathBuf) -> Self {
+        let resolved = crate::ResolvedHost::direct(&server.host, server.port, user);
         Self {
+            user: resolved.user.clone(),
             server,
-            user: user.into(),
-            pinned_host_key: pinned_host_key.into(),
             target,
+            home,
+            strict_host_key_checking: StrictHostKeyChecking::Ask,
+            resolved,
         }
     }
-}
 
-/// A `russh` client handler that accepts only the configured host public key.
-#[derive(Clone, Debug)]
-pub struct PinnedHostKeyHandler {
-    pinned: Option<PublicKey>,
-}
-
-impl PinnedHostKeyHandler {
-    /// Parses a pinned OpenSSH host key. An empty value produces a handler that
-    /// rejects every server rather than accepting the first key seen.
+    /// Resolves an OpenSSH alias through `ssh -G`, including proxy settings.
     ///
     /// # Errors
     ///
-    /// Returns an error if a non-empty value is not an OpenSSH public key.
-    pub fn new(pinned_host_key: &str) -> Result<Self, HostKeyError> {
-        let pinned_host_key = pinned_host_key.trim();
-        let pinned = if pinned_host_key.is_empty() {
-            None
-        } else {
-            Some(
-                PublicKey::from_openssh(pinned_host_key)
-                    .map_err(|error| HostKeyError(error.to_string()))?,
+    /// Returns an error if `ssh -G` rejects or cannot resolve the alias.
+    pub fn from_alias(
+        alias: &str,
+        user_override: Option<&str>,
+        target: Endpoint,
+        home: PathBuf,
+    ) -> Result<Self, crate::AliasError> {
+        let resolved = crate::resolve_host(alias, user_override, &home)?;
+        let server = Endpoint::new(&resolved.hostname, resolved.port);
+        Ok(Self {
+            user: resolved.user.clone(),
+            server,
+            target,
+            home,
+            strict_host_key_checking: StrictHostKeyChecking::Ask,
+            resolved,
+        })
+    }
+
+    /// Sets the unknown-host policy from local configuration.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when the value is not `ask`, `yes`, or `no`.
+    pub fn with_strict_host_key_checking(
+        mut self,
+        value: &str,
+    ) -> Result<Self, crate::HostKeyError> {
+        self.strict_host_key_checking = value.parse()?;
+        Ok(self)
+    }
+}
+
+struct ConnectedRoute {
+    session: Handle<KnownHostsHandler>,
+    upstream: Vec<Handle<KnownHostsHandler>>,
+}
+
+async fn connect_route(
+    config: &ExchangeConfig,
+    host_key_prompt: crate::SharedHostKeyPrompt,
+    passphrases: &mut dyn PassphraseProvider,
+    depth: u8,
+) -> Result<ConnectedRoute, LinkError> {
+    if depth >= 8 {
+        return Err(LinkError::Configuration(
+            "ProxyJump chain exceeds eight hops".to_owned(),
+        ));
+    }
+    let handler = KnownHostsHandler::new(
+        config.resolved.hostname.clone(),
+        config.resolved.port,
+        default_known_hosts_path(&config.home),
+        config.strict_host_key_checking,
+        Arc::clone(&host_key_prompt),
+    );
+    let mut route = if let Some(proxy_jump) = &config.resolved.proxy_jump {
+        let mut hops = proxy_jump.split(',');
+        let first = hops
+            .next()
+            .ok_or_else(|| LinkError::Configuration("empty ProxyJump".to_owned()))?;
+        if hops.next().is_some() {
+            return Err(LinkError::Configuration(
+                "multiple ProxyJump hops are unsupported".to_owned(),
+            ));
+        }
+        let reference = crate::parse_jump_reference(first)
+            .map_err(|error| LinkError::Configuration(error.to_string()))?;
+        let mut jump =
+            crate::resolve_host(&reference.host, reference.user.as_deref(), &config.home)
+                .map_err(|error| LinkError::Configuration(error.to_string()))?;
+        if let Some(port) = reference.port {
+            jump.port = port;
+        }
+        let mut jump_config = config.clone();
+        jump_config.server = Endpoint::new(&jump.hostname, jump.port);
+        jump_config.user = jump.user.clone();
+        jump_config.resolved = jump;
+        let upstream = Box::pin(connect_route(
+            &jump_config,
+            host_key_prompt,
+            passphrases,
+            depth.saturating_add(1),
+        ))
+        .await?;
+        let channel = upstream
+            .session
+            .channel_open_direct_tcpip(
+                config.resolved.hostname.clone(),
+                u32::from(config.resolved.port),
+                "localhost",
+                0,
             )
-        };
-        Ok(Self { pinned })
-    }
-
-    /// Returns whether `server_key` exactly matches the configured pin.
-    #[must_use]
-    pub fn accepts(&self, server_key: &PublicKey) -> bool {
-        self.pinned.as_ref() == Some(server_key)
-    }
+            .await
+            .map_err(|error| LinkError::Channel(error.to_string()))?;
+        let session = client::connect_stream(
+            Arc::new(client::Config::default()),
+            channel.into_stream(),
+            handler,
+        )
+        .await
+        .map_err(|error| LinkError::Connection(error.to_string()))?;
+        let mut upstream_sessions = upstream.upstream;
+        upstream_sessions.push(upstream.session);
+        ConnectedRoute {
+            session,
+            upstream: upstream_sessions,
+        }
+    } else if let Some(proxy_command) = &config.resolved.proxy_command {
+        let command = crate::expand_proxy_command(
+            proxy_command,
+            &config.resolved.hostname,
+            config.resolved.port,
+            &config.resolved.user,
+        );
+        let transport = crate::ProxyTransport::spawn(&command)
+            .map_err(|error| LinkError::Connection(error.to_string()))?;
+        let session =
+            client::connect_stream(Arc::new(client::Config::default()), transport, handler)
+                .await
+                .map_err(|error| LinkError::Connection(error.to_string()))?;
+        ConnectedRoute {
+            session,
+            upstream: Vec::new(),
+        }
+    } else {
+        let session = client::connect(
+            Arc::new(client::Config::default()),
+            (config.resolved.hostname.as_str(), config.resolved.port),
+            handler,
+        )
+        .await
+        .map_err(|error| LinkError::Connection(error.to_string()))?;
+        ConnectedRoute {
+            session,
+            upstream: Vec::new(),
+        }
+    };
+    authenticate(&mut route.session, config, passphrases).await?;
+    Ok(route)
 }
 
-impl Handler for PinnedHostKeyHandler {
-    type Error = russh::Error;
-
-    async fn check_server_key(
-        &mut self,
-        server_public_key: &PublicKeyOrCertificate,
-    ) -> Result<bool, Self::Error> {
-        Ok(self.accepts(&server_public_key.public_key()))
-    }
-}
-
-/// An invalid pinned host key.
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub struct HostKeyError(String);
-
-impl fmt::Display for HostKeyError {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(formatter, "invalid pinned host key: {}", self.0)
-    }
-}
-
-impl Error for HostKeyError {}
-
-/// Connects once, authenticates with a protected P-256 key, and opens exactly one
-/// `direct-tcpip` channel. No session, PTY, listener, or reverse forward is used.
+/// Connects once, authenticates with the user's OpenSSH identities, and opens
+/// exactly one `direct-tcpip` channel. No session, PTY, listener, or reverse
+/// forward is used.
 ///
 /// # Errors
 ///
-/// Returns an error on connection, host-key verification, signing,
+/// Returns an error on connection, host-key verification, identity selection,
 /// authentication, channel, or reply-size failure.
 pub async fn exchange_line(
     config: &ExchangeConfig,
-    key: ProtectedP256Key,
+    host_key_prompt: Box<dyn crate::HostKeyPrompt + Send>,
+    passphrases: &mut dyn PassphraseProvider,
     line: &[u8],
 ) -> Result<Vec<u8>, LinkError> {
-    let handler = PinnedHostKeyHandler::new(&config.pinned_host_key)
-        .map_err(|error| LinkError::Configuration(error.to_string()))?;
-    let mut session = client::connect(
-        Arc::new(client::Config::default()),
-        (config.server.host.as_str(), config.server.port),
-        handler,
-    )
-    .await
-    .map_err(|error| LinkError::Connection(error.to_string()))?;
-
-    let mut signer = ProtectedP256Signer::new(key).map_err(LinkError::Signing)?;
-    let authentication = session
-        .authenticate_publickey_with(
-            config.user.clone(),
-            signer.public_key().clone(),
-            None,
-            &mut signer,
-        )
-        .await
-        .map_err(LinkError::Signing)?;
-    if !matches!(authentication, AuthResult::Success) {
-        return Err(LinkError::AuthenticationRejected);
-    }
+    let host_key_prompt = std::sync::Arc::new(tokio::sync::Mutex::new(host_key_prompt));
+    let mut route = connect_route(config, host_key_prompt, passphrases, 0).await?;
+    let session = &mut route.session;
 
     let mut channel = session
         .channel_open_direct_tcpip(
@@ -202,17 +277,145 @@ pub async fn exchange_line(
     Ok(reply)
 }
 
+async fn authenticate<H: russh::client::Handler>(
+    session: &mut Handle<H>,
+    config: &ExchangeConfig,
+    passphrases: &mut dyn PassphraseProvider,
+) -> Result<(), LinkError> {
+    let selection = select_identity_files(&config.home, &config.resolved.alias)
+        .map_err(|error| LinkError::Configuration(error.to_string()))?;
+    let mut agent_keys = Vec::new();
+    if let Ok(mut agent) = AgentClient::connect_env().await
+        && let Ok(identities) = agent.request_identities().await
+    {
+        for identity in identities {
+            if !agent_identity_allowed(&identity, &selection) {
+                continue;
+            }
+            if let AgentIdentity::PublicKey { key, .. } = &identity {
+                agent_keys.push(key.clone());
+            }
+            let result = match &identity {
+                AgentIdentity::PublicKey { key, .. } => {
+                    let hash_alg = rsa_hash(session, key).await;
+                    session
+                        .authenticate_publickey_with(
+                            config.user.clone(),
+                            key.clone(),
+                            hash_alg,
+                            &mut agent,
+                        )
+                        .await
+                }
+                AgentIdentity::Certificate { certificate, .. } => {
+                    session
+                        .authenticate_certificate_with(
+                            config.user.clone(),
+                            certificate.clone(),
+                            None,
+                            &mut agent,
+                        )
+                        .await
+                }
+            };
+            if matches!(result, Ok(AuthResult::Success)) {
+                return Ok(());
+            }
+        }
+    }
+
+    for identity in &selection.files {
+        if identity.public_key().is_some_and(|candidate| {
+            agent_keys
+                .iter()
+                .any(|key| key.key_data() == candidate.key_data())
+        }) {
+            continue;
+        }
+        let Ok(key) = load_private_key(identity.path(), passphrases) else {
+            continue;
+        };
+        let key = Arc::new(key);
+        let certificate_path = identity.path().with_extension("pub");
+        let certificate_path = certificate_path
+            .to_string_lossy()
+            .strip_suffix(".pub")
+            .map(|stem| format!("{stem}-cert.pub"));
+        let result = if let Some(certificate_path) = certificate_path {
+            match russh::keys::load_openssh_certificate(certificate_path) {
+                Ok(certificate) => {
+                    session
+                        .authenticate_openssh_cert(config.user.clone(), key, certificate)
+                        .await
+                }
+                Err(_) => authenticate_file_key(session, &config.user, key).await,
+            }
+        } else {
+            authenticate_file_key(session, &config.user, key).await
+        };
+        if matches!(result, Ok(AuthResult::Success)) {
+            return Ok(());
+        }
+    }
+    Err(LinkError::AuthenticationRejected)
+}
+
+fn agent_identity_allowed(identity: &AgentIdentity, selection: &IdentitySelection) -> bool {
+    if !selection.identities_only {
+        return true;
+    }
+    selection
+        .files
+        .iter()
+        .filter_map(|file| file.public_key())
+        .any(|candidate| match identity {
+            AgentIdentity::PublicKey { key, .. } => candidate.key_data() == key.key_data(),
+            AgentIdentity::Certificate { certificate, .. } => {
+                candidate.key_data() == certificate.public_key()
+            }
+        })
+}
+
+async fn authenticate_file_key<H: russh::client::Handler>(
+    session: &mut Handle<H>,
+    user: &str,
+    key: Arc<russh::keys::PrivateKey>,
+) -> Result<AuthResult, russh::Error> {
+    let hash_alg = if key.algorithm().is_rsa() {
+        session.best_supported_rsa_hash().await?.flatten()
+    } else {
+        None
+    };
+    session
+        .authenticate_publickey(user, russh::keys::PrivateKeyWithHashAlg::new(key, hash_alg))
+        .await
+}
+
+async fn rsa_hash<H: russh::client::Handler>(
+    session: &Handle<H>,
+    key: &PublicKey,
+) -> Option<HashAlg> {
+    if key.algorithm().is_rsa() {
+        session
+            .best_supported_rsa_hash()
+            .await
+            .ok()
+            .flatten()
+            .flatten()
+    } else {
+        None
+    }
+}
+
 /// A connection, authentication, channel, or exchange failure.
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum LinkError {
     /// Invalid local connection configuration.
     Configuration(String),
-    /// The SSH transport failed, including host-key rejection.
+    /// The SSH transport failed, including known-host rejection.
     Connection(String),
-    /// Protected-key signing or signature encoding failed.
-    Signing(SignerError),
-    /// The server did not accept the public-key authentication.
+    /// None of the selected OpenSSH identities authenticated.
     AuthenticationRejected,
     /// The direct-TCP/IP channel failed.
     Channel(String),
@@ -225,9 +428,8 @@ impl fmt::Display for LinkError {
         match self {
             Self::Configuration(error) => write!(formatter, "configuration: {error}"),
             Self::Connection(error) => write!(formatter, "SSH connection: {error}"),
-            Self::Signing(error) => write!(formatter, "SSH signing: {error}"),
             Self::AuthenticationRejected => {
-                formatter.write_str("SSH public-key authentication was rejected")
+                formatter.write_str("SSH authentication failed for all selected identities")
             }
             Self::Channel(error) => write!(formatter, "direct-tcpip channel: {error}"),
             Self::ReplyTooLarge => formatter.write_str("direct-tcpip reply exceeded 64 KiB"),
@@ -237,32 +439,103 @@ impl fmt::Display for LinkError {
 
 impl Error for LinkError {}
 
+/// Returns the home directory used for native OpenSSH files.
+///
+/// `TULPA_OPENSSH_HOME` is an explicit test override; otherwise `HOME` is used.
+/// Keychain access is unaffected by the override.
+///
+/// # Errors
+///
+/// Returns an error when the selected variable is absent or not Unicode.
+pub fn home_directory() -> Result<PathBuf, LinkError> {
+    std::env::var("TULPA_OPENSSH_HOME")
+        .or_else(|_| std::env::var("HOME"))
+        .map(PathBuf::from)
+        .map_err(|error| LinkError::Configuration(format!("OpenSSH home is unavailable: {error}")))
+}
+
+/// Returns the current login name used when neither local nor SSH config sets one.
+///
+/// # Errors
+///
+/// Returns an error when `USER` is absent or not Unicode.
+pub fn default_user() -> Result<String, LinkError> {
+    std::env::var("USER")
+        .map_err(|error| LinkError::Configuration(format!("USER is unavailable: {error}")))
+}
+
+/// Resolves the SSH user without changing the discovered server address.
+#[must_use]
+pub fn configured_user(local_user: &str, home: &Path, host: &str) -> Option<String> {
+    if !local_user.is_empty() {
+        return Some(local_user.to_owned());
+    }
+    crate::resolve_host(host, None, home)
+        .ok()
+        .map(|resolved| resolved.user)
+        .or_else(|| default_user().ok())
+}
+
 #[cfg(test)]
 mod tests {
-    use russh::keys::ssh_key::public::EcdsaPublicKey;
-
     use super::*;
 
-    fn test_public_key(byte: u8) -> Result<PublicKey, Box<dyn std::error::Error>> {
-        let signing_key = p256::ecdsa::SigningKey::from_slice(&[byte; 32])?;
-        let point = signing_key.verifying_key().to_sec1_point(false);
-        Ok(EcdsaPublicKey::from_sec1_bytes(point.as_bytes())?.into())
-    }
-
     #[test]
-    fn empty_host_key_rejects_every_server_key() -> Result<(), Box<dyn std::error::Error>> {
-        let handler = PinnedHostKeyHandler::new("")?;
-        assert!(!handler.accepts(&test_public_key(7)?));
+    fn missing_ssh_config_uses_current_login() -> Result<(), Box<dyn std::error::Error>> {
+        let temp = tempfile::tempdir()?;
+        let expected = default_user()?;
+
+        assert_eq!(
+            configured_user("", temp.path(), "example.test"),
+            Some(expected)
+        );
         Ok(())
     }
 
-    #[test]
-    fn host_key_pin_requires_an_exact_match() -> Result<(), Box<dyn std::error::Error>> {
-        let pinned = test_public_key(7)?;
-        let encoded = pinned.to_openssh()?;
-        let handler = PinnedHostKeyHandler::new(&encoded)?;
-        assert!(handler.accepts(&pinned));
-        assert!(!handler.accepts(&test_public_key(8)?));
+    #[tokio::test]
+    async fn multiple_proxy_jump_hops_are_rejected_before_connecting()
+    -> Result<(), Box<dyn std::error::Error>> {
+        struct NoHostPrompt;
+        impl crate::HostKeyPrompt for NoHostPrompt {
+            fn confirm_unknown_host(&mut self, _: &str, _: u16, _: &str) -> bool {
+                false
+            }
+        }
+        struct NoPassphrases;
+        impl PassphraseProvider for NoPassphrases {
+            fn keychain_passphrase(
+                &mut self,
+                _: &Path,
+            ) -> Result<Option<zeroize::Zeroizing<String>>, crate::PassphraseError> {
+                Ok(None)
+            }
+
+            fn prompt_passphrase(
+                &mut self,
+                _: &Path,
+            ) -> Result<zeroize::Zeroizing<String>, crate::PassphraseError> {
+                Err(crate::PassphraseError::new("no prompt in this test"))
+            }
+        }
+
+        let mut config = ExchangeConfig::new(
+            Endpoint::new("127.0.0.1", 22),
+            "test-user",
+            Endpoint::new("127.0.0.1", 23),
+            PathBuf::new(),
+        );
+        config.resolved.proxy_jump = Some("first.test,second.test".to_owned());
+        let mut passphrases = NoPassphrases;
+        let result =
+            exchange_line(&config, Box::new(NoHostPrompt), &mut passphrases, b"test").await;
+
+        match result {
+            Err(LinkError::Configuration(message)) => {
+                assert_eq!(message, "multiple ProxyJump hops are unsupported");
+            }
+            Err(error) => return Err(format!("unexpected error: {error}").into()),
+            Ok(_) => return Err("multiple hops unexpectedly connected".into()),
+        }
         Ok(())
     }
 }

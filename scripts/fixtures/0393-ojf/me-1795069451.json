@@ -1,0 +1,410 @@
+{
+	"systeminfo": "WHISPER : VITISAI = 0 | COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "large",
+		"multilingual": true,
+		"vocab": 51866,
+		"audio": {
+			"ctx": 1500,
+			"state": 1280,
+			"head": 20,
+			"layer": 32
+		},
+		"text": {
+			"ctx": 448,
+			"state": 1280,
+			"head": 20,
+			"layer": 4
+		},
+		"mels": 128,
+		"ftype": 8
+	},
+	"params": {
+		"model": "/Users/Shared/.cache/PLACEHOLDER/ggml-large-v3-turbo-q5_0.bin",
+		"language": "ru",
+		"translate": false
+	},
+	"result": {
+		"language": "ru"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,130",
+				"to": "00:00:00,370"
+			},
+			"offsets": {
+				"from": 130,
+				"to": 370
+			},
+			"text": " Редактор субтитров А.Семкин Корректор А.Егорова",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 50365,
+					"p": 0.939038,
+					"t_dtw": -1
+				},
+				{
+					"text": " Р",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 6325,
+					"p": 0.123538,
+					"t_dtw": -1
+				},
+				{
+					"text": "ед",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,010"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 10
+					},
+					"id": 2229,
+					"p": 0.98105,
+					"t_dtw": -1
+				},
+				{
+					"text": "ак",
+					"timestamps": {
+						"from": "00:00:00,010",
+						"to": "00:00:00,020"
+					},
+					"offsets": {
+						"from": 10,
+						"to": 20
+					},
+					"id": 1272,
+					"p": 0.999748,
+					"t_dtw": -1
+				},
+				{
+					"text": "тор",
+					"timestamps": {
+						"from": "00:00:00,020",
+						"to": "00:00:00,040"
+					},
+					"offsets": {
+						"from": 20,
+						"to": 40
+					},
+					"id": 2542,
+					"p": 0.99831,
+					"t_dtw": -1
+				},
+				{
+					"text": " с",
+					"timestamps": {
+						"from": "00:00:00,040",
+						"to": "00:00:00,040"
+					},
+					"offsets": {
+						"from": 40,
+						"to": 40
+					},
+					"id": 776,
+					"p": 0.999106,
+					"t_dtw": -1
+				},
+				{
+					"text": "уб",
+					"timestamps": {
+						"from": "00:00:00,040",
+						"to": "00:00:00,050"
+					},
+					"offsets": {
+						"from": 40,
+						"to": 50
+					},
+					"id": 8893,
+					"p": 0.999399,
+					"t_dtw": -1
+				},
+				{
+					"text": "т",
+					"timestamps": {
+						"from": "00:00:00,050",
+						"to": "00:00:00,050"
+					},
+					"offsets": {
+						"from": 50,
+						"to": 50
+					},
+					"id": 403,
+					"p": 0.999786,
+					"t_dtw": -1
+				},
+				{
+					"text": "ит",
+					"timestamps": {
+						"from": "00:00:00,050",
+						"to": "00:00:00,060"
+					},
+					"offsets": {
+						"from": 50,
+						"to": 60
+					},
+					"id": 1635,
+					"p": 0.99956,
+					"t_dtw": -1
+				},
+				{
+					"text": "ров",
+					"timestamps": {
+						"from": "00:00:00,060",
+						"to": "00:00:00,080"
+					},
+					"offsets": {
+						"from": 60,
+						"to": 80
+					},
+					"id": 6680,
+					"p": 0.999779,
+					"t_dtw": -1
+				},
+				{
+					"text": " А",
+					"timestamps": {
+						"from": "00:00:00,080",
+						"to": "00:00:00,080"
+					},
+					"offsets": {
+						"from": 80,
+						"to": 80
+					},
+					"id": 3450,
+					"p": 0.967208,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:00,080",
+						"to": "00:00:00,100"
+					},
+					"offsets": {
+						"from": 80,
+						"to": 100
+					},
+					"id": 13,
+					"p": 0.999962,
+					"t_dtw": -1
+				},
+				{
+					"text": "С",
+					"timestamps": {
+						"from": "00:00:00,100",
+						"to": "00:00:00,100"
+					},
+					"offsets": {
+						"from": 100,
+						"to": 100
+					},
+					"id": 8068,
+					"p": 0.996434,
+					"t_dtw": -1
+				},
+				{
+					"text": "ем",
+					"timestamps": {
+						"from": "00:00:00,100",
+						"to": "00:00:00,110"
+					},
+					"offsets": {
+						"from": 100,
+						"to": 110
+					},
+					"id": 1504,
+					"p": 0.942274,
+					"t_dtw": -1
+				},
+				{
+					"text": "ки",
+					"timestamps": {
+						"from": "00:00:00,110",
+						"to": "00:00:00,120"
+					},
+					"offsets": {
+						"from": 110,
+						"to": 120
+					},
+					"id": 2241,
+					"p": 0.999371,
+					"t_dtw": -1
+				},
+				{
+					"text": "н",
+					"timestamps": {
+						"from": "00:00:00,120",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 120,
+						"to": 240
+					},
+					"id": 489,
+					"p": 0.999908,
+					"t_dtw": -1
+				},
+				{
+					"text": " Кор",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 29635,
+					"p": 0.959945,
+					"t_dtw": -1
+				},
+				{
+					"text": "р",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 481,
+					"p": 0.999731,
+					"t_dtw": -1
+				},
+				{
+					"text": "ектор",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 39867,
+					"p": 0.999504,
+					"t_dtw": -1
+				},
+				{
+					"text": " А",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 3450,
+					"p": 0.999146,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 13,
+					"p": 0.999929,
+					"t_dtw": -1
+				},
+				{
+					"text": "Е",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 10156,
+					"p": 0.998094,
+					"t_dtw": -1
+				},
+				{
+					"text": "го",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 4567,
+					"p": 0.999682,
+					"t_dtw": -1
+				},
+				{
+					"text": "ров",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 6680,
+					"p": 0.999641,
+					"t_dtw": -1
+				},
+				{
+					"text": "а",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 386,
+					"p": 0.999603,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_12]",
+					"timestamps": {
+						"from": "00:00:00,240",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 240,
+						"to": 240
+					},
+					"id": 50377,
+					"p": 0.397751,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}
+

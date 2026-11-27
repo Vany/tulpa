@@ -1,0 +1,34 @@
+# tulpa hands policy: edited on the Mac only, never over the link.
+# Every root is a statement that this code may leave the machine (design §3).
+# The tray reads this file once at start: after an edit, quit and reopen the
+# tray for the new policy to apply.
+
+roots = ["~/src/example"]
+
+# off | ask | on, for read / list / git.status|diff|log inside the roots.
+# The data stream's xfer.get (a file sent from the Mac) follows `read`.
+read = "on"
+list = "on"
+git = "on"
+
+# off | ask | on, for the data stream's xfer.put: a file received into a root
+# (written as <path>.<sha12>.part, renamed when whole). ask when absent.
+put = "ask"
+
+# How long a question waits in the menu for Allow / Deny (1-900 s).
+ask_timeout_secs = 30
+
+# git_program = "/usr/bin/git"
+
+[[command]]
+name = "example-test"
+argv = ["/usr/bin/make", "test"]   # absolute program, fixed arguments
+cwd = "~/src/example"              # inside a root
+mode = "ask"                       # off | ask | on; ask when absent
+timeout_secs = 300                 # killed past this (max 3600)
+
+# Full mode (a machine set up through the link alone): `shell <command>` runs any
+# command as you, `write <path>` writes any file, read/list and the data
+# stream's put/get reach any path — no roots, no named commands, no asking. Every request is logged (a write's content
+# is not). The menu's "Hands: full" toggles it too. Off unless you set it.
+# full = false

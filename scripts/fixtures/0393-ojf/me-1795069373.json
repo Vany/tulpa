@@ -1,0 +1,270 @@
+{
+	"systeminfo": "WHISPER : VITISAI = 0 | COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "large",
+		"multilingual": true,
+		"vocab": 51866,
+		"audio": {
+			"ctx": 1500,
+			"state": 1280,
+			"head": 20,
+			"layer": 32
+		},
+		"text": {
+			"ctx": 448,
+			"state": 1280,
+			"head": 20,
+			"layer": 4
+		},
+		"mels": 128,
+		"ftype": 8
+	},
+	"params": {
+		"model": "/Users/Shared/.cache/PLACEHOLDER/ggml-large-v3-turbo-q5_0.bin",
+		"language": "ru",
+		"translate": false
+	},
+	"result": {
+		"language": "ru"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,990",
+				"to": "00:00:14,890"
+			},
+			"offsets": {
+				"from": 990,
+				"to": 14890
+			},
+			"text": " Субтитры создавал DimaTorzok",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 50365,
+					"p": 0.924848,
+					"t_dtw": -1
+				},
+				{
+					"text": " С",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,250"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 250
+					},
+					"id": 2933,
+					"p": 0.122305,
+					"t_dtw": -1
+				},
+				{
+					"text": "уб",
+					"timestamps": {
+						"from": "00:00:00,250",
+						"to": "00:00:00,750"
+					},
+					"offsets": {
+						"from": 250,
+						"to": 750
+					},
+					"id": 8893,
+					"p": 0.839652,
+					"t_dtw": -1
+				},
+				{
+					"text": "т",
+					"timestamps": {
+						"from": "00:00:00,750",
+						"to": "00:00:00,930"
+					},
+					"offsets": {
+						"from": 750,
+						"to": 930
+					},
+					"id": 403,
+					"p": 0.998744,
+					"t_dtw": -1
+				},
+				{
+					"text": "ит",
+					"timestamps": {
+						"from": "00:00:01,040",
+						"to": "00:00:01,490"
+					},
+					"offsets": {
+						"from": 1040,
+						"to": 1490
+					},
+					"id": 1635,
+					"p": 0.999743,
+					"t_dtw": -1
+				},
+				{
+					"text": "ры",
+					"timestamps": {
+						"from": "00:00:01,590",
+						"to": "00:00:01,980"
+					},
+					"offsets": {
+						"from": 1590,
+						"to": 1980
+					},
+					"id": 10461,
+					"p": 0.999605,
+					"t_dtw": -1
+				},
+				{
+					"text": " созд",
+					"timestamps": {
+						"from": "00:00:02,080",
+						"to": "00:00:03,000"
+					},
+					"offsets": {
+						"from": 2080,
+						"to": 3000
+					},
+					"id": 20247,
+					"p": 0.240102,
+					"t_dtw": -1
+				},
+				{
+					"text": "ав",
+					"timestamps": {
+						"from": "00:00:03,000",
+						"to": "00:00:03,500"
+					},
+					"offsets": {
+						"from": 3000,
+						"to": 3500
+					},
+					"id": 1828,
+					"p": 0.902283,
+					"t_dtw": -1
+				},
+				{
+					"text": "ал",
+					"timestamps": {
+						"from": "00:00:03,500",
+						"to": "00:00:03,990"
+					},
+					"offsets": {
+						"from": 3500,
+						"to": 3990
+					},
+					"id": 1218,
+					"p": 0.997722,
+					"t_dtw": -1
+				},
+				{
+					"text": " D",
+					"timestamps": {
+						"from": "00:00:03,990",
+						"to": "00:00:04,250"
+					},
+					"offsets": {
+						"from": 3990,
+						"to": 4250
+					},
+					"id": 413,
+					"p": 0.998889,
+					"t_dtw": -1
+				},
+				{
+					"text": "ima",
+					"timestamps": {
+						"from": "00:00:04,250",
+						"to": "00:00:04,920"
+					},
+					"offsets": {
+						"from": 4250,
+						"to": 4920
+					},
+					"id": 4775,
+					"p": 0.998953,
+					"t_dtw": -1
+				},
+				{
+					"text": "T",
+					"timestamps": {
+						"from": "00:00:05,030",
+						"to": "00:00:05,250"
+					},
+					"offsets": {
+						"from": 5030,
+						"to": 5250
+					},
+					"id": 51,
+					"p": 0.999033,
+					"t_dtw": -1
+				},
+				{
+					"text": "or",
+					"timestamps": {
+						"from": "00:00:05,250",
+						"to": "00:00:05,650"
+					},
+					"offsets": {
+						"from": 5250,
+						"to": 5650
+					},
+					"id": 284,
+					"p": 0.999548,
+					"t_dtw": -1
+				},
+				{
+					"text": "z",
+					"timestamps": {
+						"from": "00:00:05,750",
+						"to": "00:00:06,000"
+					},
+					"offsets": {
+						"from": 5750,
+						"to": 6000
+					},
+					"id": 89,
+					"p": 0.999371,
+					"t_dtw": -1
+				},
+				{
+					"text": "ok",
+					"timestamps": {
+						"from": "00:00:06,000",
+						"to": "00:00:06,540"
+					},
+					"offsets": {
+						"from": 6000,
+						"to": 6540
+					},
+					"id": 453,
+					"p": 0.997169,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_327]",
+					"timestamps": {
+						"from": "00:00:06,540",
+						"to": "00:00:06,540"
+					},
+					"offsets": {
+						"from": 6540,
+						"to": 6540
+					},
+					"id": 50692,
+					"p": 0.0591524,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}
+

@@ -1,14 +1,27 @@
 [package]
 name = "tulpa-hands"
-description = "Policy-bound parallel jobs on the Mac"
+description = "Policy-bound hands: read, list, git, named commands and file transfer inside listed roots"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
-repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
 publish.workspace = true
 
 [lints]
 workspace = true
+
+[dependencies]
+regex = "1.12.3"
+rustix = { version = "1.1.6", features = ["fs", "process", "std"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.150"
+# The data stream's sha256 (put check, get ack); already in Cargo.lock through russh.
+sha2 = { version = "0.11.0", default-features = false }
+toml = "1.2.1"
+# Path, std only: Pause and the link's death as events a child's wait and a transfer's wait wake on.
+tulpa-stop = { version = "0.1.0", path = "../tulpa-stop" }
+
+[dev-dependencies]
+tempfile = "3"

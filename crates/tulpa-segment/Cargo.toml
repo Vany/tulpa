@@ -1,0 +1,13 @@
+[package]
+name = "tulpa-segment"
+description = "Cuts 16 kHz mono speech into whole utterances on pauses, with an end-of-utterance pitch tag"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+keywords.workspace = true
+categories.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,19 @@
+#!/bin/sh
+# caffeinate stand-in for the update.sh harness: records the call, then waits like `caffeinate -w PID` until
+# PID exits and records the release. Holds no assertion. STUB_CAFFEINATE=fail exits at once, as a caffeinate
+# that cannot start.
+printf 'caffeinate %s\n' "$*" >>"${STUB_STATE:?}/calls"
+[ "${STUB_CAFFEINATE:-}" != fail ] || exit 1
+pid=
+while [ $# -gt 0 ]; do
+	case $1 in
+	-w)
+		pid=${2:-}
+		shift 2 || exit 64
+		;;
+	*) shift ;;
+	esac
+done
+[ -n "$pid" ] || exit 64
+while kill -0 "$pid" 2>/dev/null; do sleep 0.2; done
+printf 'caffeinate -w %s released\n' "$pid" >>"$STUB_STATE/calls"

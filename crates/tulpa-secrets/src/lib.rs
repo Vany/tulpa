@@ -1,12 +1,12 @@
 //! Keychain-guarded secret operations without exporting raw keys to the agent.
 //!
-//! The macOS protected-key implementation exposes only public-key bytes and
-//! signing operations. Private-key export and deletion are deliberately absent.
+//! The macOS implementation reads OpenSSH passphrases from the login Keychain.
+//! It never stores, modifies, logs, or sends them to the agent.
 
 #[cfg(target_os = "macos")]
 mod macos;
 #[cfg(target_os = "macos")]
-pub use macos::{KeyBackend, KeyError, PlatformError, ProtectedP256Key};
+pub use macos::{KeychainError, openssh_passphrase};
 
 /// Initial capability boundary for the secrets organ; no implementation is provided.
 pub trait Secrets {

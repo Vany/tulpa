@@ -1,0 +1,19 @@
+[package]
+name = "tulpa-audio-events"
+description = "CoreAudio's device events (default input, default output, the device list, a device running) as callbacks"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+keywords.workspace = true
+categories.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Zlib/Apache-2.0/MIT, already in the tree through cpal and coreaudio-rs (same version): AudioObjectAddPropertyListener
+# and the system object's property ids. The C listener API is the one shipped place in the workspace with `unsafe`;
+# the other is the measurement example crates/tulpa-hear/examples/switch_gap.rs.
+objc2-core-audio = { version = "0.3", default-features = false, features = ["std", "AudioHardware"] }

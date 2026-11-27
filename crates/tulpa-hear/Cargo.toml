@@ -1,0 +1,72 @@
+[package]
+name = "tulpa-hear"
+description = "The ears' sources: the mic following the macOS default input and system audio through a process tap, 16 kHz mono s16le out"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+keywords.workspace = true
+categories.workspace = true
+publish.workspace = true
+
+[dependencies]
+# Path, std only: the stop the captures and the heard lines wait on as an event, not a polled flag.
+tulpa-stop = { version = "0.1.0", path = "../tulpa-stop" }
+# MIT/Apache-2.0, pure Rust: band-limited resampling from the device rate to 16 kHz.
+rubato = "5.1"
+# Path: the pause cutter, shared with the tulpa-segment binary (not copied).
+tulpa-segment = { version = "0.1.0", path = "../tulpa-segment" }
+# MIT, already in Cargo.lock through tulpa-tray (same version and features): `--shadow` takes SIGTERM/SIGINT/SIGHUP
+# on a thread (sigwait) to write its stop record and exit 0; std cannot, and unsafe is denied here. `user`: getuid,
+# for the raw ring's default dir name and its owner check (std has no safe getuid); no new crate.
+nix = { version = "0.31.3", default-features = false, features = ["signal", "user"] }
+
+[dev-dependencies]
+# The same nix, plus `pthread_kill` to aim a test's SIGTERM at the watch thread alone.
+nix = { version = "0.31.3", default-features = false, features = ["signal", "user", "pthread"] }
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+# Unlicense: whisper.cpp in process, only with the `whisper` feature (it needs cmake and a C++ toolchain, so it is
+# off by default; Linux CI never builds it). Off macOS without Metal.
+whisper-rs = { version = "0.16", optional = true }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Apache-2.0: CoreAudio input streams. macOS only, so Linux never pulls ALSA.
+cpal = "0.18"
+# Path: CoreAudio's default-device and device-list events, which the mic and the tap follow (shared with the tray).
+tulpa-audio-events = { version = "0.1.0", path = "../tulpa-audio-events" }
+# MIT/Apache-2.0, already in the tree through cpal (same version and features): the safe AudioUnit wrapper for the
+# optional VoiceProcessingIO mic (noise suppression and gain control), which cpal cannot open. Used only by src/aec.rs.
+coreaudio-rs = { version = "0.14", default-features = false, features = ["core_audio", "audio_toolbox"] }
+# Zlib/Apache-2.0/MIT, already in the tree through cpal (same features): the EnableIO and CurrentDevice property ids.
+objc2-audio-toolbox = { version = "0.3", default-features = false, features = ["std", "AUComponent", "AudioUnitProperties"] }
+
+[target.'cfg(target_os = "macos")'.dev-dependencies]
+# Already in the tree through cpal (same versions): examples/switch_gap.rs makes a temporary aggregate device and sets
+# the default input, to measure the capture gap on a real switch. Measurement only.
+objc2-core-audio = { version = "0.3", default-features = false, features = ["std", "AudioHardware"] }
+objc2-core-foundation = { version = "0.3", default-features = false, features = ["std", "CFArray", "CFDictionary", "CFString"] }
+
+[target.'cfg(target_os = "macos")'.dependencies.whisper-rs]
+# Unlicense: whisper.cpp in process, with Metal on macOS; only with the `whisper` feature (it needs cmake).
+version = "0.16"
+optional = true
+features = ["metal"]
+
+[features]
+# The real recognizer (whisper.cpp through whisper-rs). Off by default: without it `--ears` refuses.
+whisper = ["dep:whisper-rs"]
+
+[lints]
+workspace = true
+
+[[example]]
+# Measures the capture gap on a real default-input switch (macOS); `test = true` runs its unit test of the measuring
+# with the workspace's tests.
+name = "switch_gap"
+test = true
+
+[[example]]
+# Runs the real recognizer on one 16 kHz mono s16 WAV and prints its tokens as JSON (the tests/fixtures/whisper files).
+name = "transcribe_wav"
+required-features = ["whisper"]

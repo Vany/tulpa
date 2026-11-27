@@ -52,7 +52,7 @@ ScreenCaptureKit does not need `NSAudioCaptureUsageDescription`; Core Audio taps
 
 The Core Audio sample requires `Info.plist` usage text, and both frameworks need reliable TCC ownership. Therefore the product path is the **signed tulpa app bundle**, with the microphone helper inside it. A CLI can technically call these C/Objective-C APIs, but it is only a development probe: without bundle usage text and stable code identity, the grant can attach to Terminal or another responsible process, fail, or behave differently across launches. Do not use a Terminal-owned grant as evidence that the bundled app works.
 
-Neither audio route needs a virtual audio driver. Core Audio's system-audio grant is separate from the restricted Keychain entitlement used by the SSH spike; one does not authorize the other.
+Neither audio route needs a virtual audio driver. Core Audio's system-audio grant is separate from the Keychain lookup used for SSH passphrases; one does not authorize the other.
 
 ## Recommended direction
 

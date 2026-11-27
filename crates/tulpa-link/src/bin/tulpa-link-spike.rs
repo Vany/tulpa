@@ -1,24 +1,25 @@
-//! Manual harness for the protected-key, discovery, and SSH transport spike.
+//! Manual harness for OpenSSH identities, discovery, and the transport spike.
 
 use std::error::Error;
 use std::io::{self, Write};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
-use p256::ecdsa::signature::Verifier as _;
-use tulpa_link::{LocalConfig, ProtectedP256Signer, Route, discover};
-use tulpa_secrets::{KeyBackend, ProtectedP256Key};
+use tulpa_link::{
+    Endpoint, ExchangeConfig, HostKeyPrompt, LocalConfig, PassphraseError, PassphraseProvider,
+    Route, configured_user, discover, exchange_line, home_directory, select_identity_files,
+};
+use zeroize::Zeroizing;
 
-fn main() -> Result<(), Box<dyn Error>> {
-    let mut arguments = std::env::args();
-    let _program = arguments.next();
-    let command = arguments.next().unwrap_or_default();
-    let value = arguments.next().unwrap_or_default();
-    if value.is_empty() || arguments.next().is_some() {
-        return usage();
-    }
-    match command.as_str() {
-        "key" => run_key(&value),
-        "discover" => run_discovery(Path::new(&value)),
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    let arguments: Vec<String> = std::env::args().skip(1).collect();
+    match arguments.as_slice() {
+        [command, path] if command == "discover" => run_discovery(Path::new(path)),
+        [command, path] if command == "exchange" => run_exchange(Path::new(path)).await,
+        [command, host] if command == "identities" => run_identities(host, None),
+        [command, host, home] if command == "identities" => {
+            run_identities(host, Some(PathBuf::from(home)))
+        }
         _ => usage(),
     }
 }
@@ -26,42 +27,29 @@ fn main() -> Result<(), Box<dyn Error>> {
 fn usage() -> Result<(), Box<dyn Error>> {
     writeln!(
         io::stderr().lock(),
-        "usage: tulpa-link-spike key KEY_LABEL | discover CONFIG_PATH"
+        "usage: tulpa-link-spike discover CONFIG_PATH | exchange CONFIG_PATH | identities HOST [HOME]"
     )?;
     Err("invalid arguments".into())
 }
 
-fn run_key(label: &str) -> Result<(), Box<dyn Error>> {
-    let key = ProtectedP256Key::create_or_load(label)?;
-    let signer = ProtectedP256Signer::new(key)?;
-    let backend = match signer.protected_key().backend() {
-        KeyBackend::SecureEnclave => "Secure Enclave",
-        KeyBackend::AppRestrictedKeychain => "app-restricted login Keychain",
-        KeyBackend::Existing => "existing protected key",
-        _ => "unknown protected-key backend",
-    };
-    writeln!(io::stderr().lock(), "backend: {backend}")?;
-    if let Some(error) = signer.protected_key().secure_enclave_error() {
-        writeln!(
-            io::stderr().lock(),
-            "Secure Enclave fallback cause: {error}"
-        )?;
+fn run_identities(host: &str, home: Option<PathBuf>) -> Result<(), Box<dyn Error>> {
+    let home = home.map_or_else(home_directory, Ok)?;
+    let selection = select_identity_files(&home, host)?;
+    for identity in &selection.files {
+        if let Some(fingerprint) = identity.fingerprint() {
+            writeln!(
+                io::stdout().lock(),
+                "{} {}",
+                identity.path().display(),
+                fingerprint
+            )?;
+        }
     }
-
-    let message = b"tulpa protected-key self-test";
-    let der = signer.protected_key().sign(message)?;
-    let signature = p256::ecdsa::Signature::from_der(&der)?;
-    let public_key =
-        p256::ecdsa::VerifyingKey::from_sec1_bytes(&signer.protected_key().public_key_sec1()?)?;
-    public_key.verify(message, &signature)?;
-    writeln!(io::stderr().lock(), "protected signing self-test: passed")?;
-    writeln!(io::stdout().lock(), "{}", signer.openssh_public_key()?)?;
     Ok(())
 }
 
 fn run_discovery(path: &Path) -> Result<(), Box<dyn Error>> {
-    let input = std::fs::read_to_string(path)?;
-    let config = LocalConfig::from_toml(&input)?;
+    let config = read_config(path)?;
     let selected = discover(&config.link.discovery())?;
     let route = match selected.route {
         Route::LanBonjour => "LAN Bonjour",
@@ -75,4 +63,87 @@ fn run_discovery(path: &Path) -> Result<(), Box<dyn Error>> {
         selected.endpoint.port
     )?;
     Ok(())
+}
+
+async fn run_exchange(path: &Path) -> Result<(), Box<dyn Error>> {
+    let config = read_config(path)?;
+    let home = home_directory()?;
+    let target = Endpoint::new(&config.link.target_host, config.link.target_port);
+    let exchange = if config.link.host.is_empty() {
+        let selected = discover(&config.link.discovery())?;
+        let user = configured_user(&config.link.user, &home, &selected.endpoint.host)
+            .ok_or("no SSH user configured")?;
+        ExchangeConfig::new(selected.endpoint, user, target, home)
+    } else {
+        let user_override = (!config.link.user.is_empty()).then_some(config.link.user.as_str());
+        ExchangeConfig::from_alias(&config.link.host, user_override, target, home)?
+    }
+    .with_strict_host_key_checking(&config.link.strict_host_key_checking)?;
+    let host_prompt = CliHostPrompt;
+    let mut passphrases = CliPassphrases;
+    let reply = tokio::time::timeout(
+        std::time::Duration::from_secs(20),
+        exchange_line(
+            &exchange,
+            Box::new(host_prompt),
+            &mut passphrases,
+            b"tulpa spike\n",
+        ),
+    )
+    .await??;
+    io::stdout().lock().write_all(&reply)?;
+    Ok(())
+}
+
+fn read_config(path: &Path) -> Result<LocalConfig, Box<dyn Error>> {
+    let input = std::fs::read_to_string(path)?;
+    Ok(LocalConfig::from_toml(&input)?)
+}
+
+struct CliHostPrompt;
+
+impl HostKeyPrompt for CliHostPrompt {
+    fn confirm_unknown_host(&mut self, host: &str, port: u16, fingerprint: &str) -> bool {
+        let mut stderr = io::stderr().lock();
+        if writeln!(
+            stderr,
+            "Unknown SSH host {host}:{port}. SHA-256 fingerprint: {fingerprint}.\nTrust and add it to known_hosts? Type yes or no."
+        )
+        .is_err()
+        {
+            return false;
+        }
+        let mut answer = String::new();
+        io::stdin()
+            .read_line(&mut answer)
+            .is_ok_and(|count| count > 0 && answer.trim().eq_ignore_ascii_case("yes"))
+    }
+}
+
+struct CliPassphrases;
+
+impl PassphraseProvider for CliPassphrases {
+    fn keychain_passphrase(
+        &mut self,
+        key_path: &Path,
+    ) -> Result<Option<Zeroizing<String>>, PassphraseError> {
+        // The Keychain lookup exists only on macOS; elsewhere the provider
+        // falls through to the interactive prompt.
+        #[cfg(target_os = "macos")]
+        {
+            tulpa_secrets::openssh_passphrase(key_path)
+                .map_err(|error| PassphraseError::new(error.to_string()))
+        }
+        #[cfg(not(target_os = "macos"))]
+        {
+            let _ = key_path;
+            Ok(None)
+        }
+    }
+
+    fn prompt_passphrase(&mut self, key_path: &Path) -> Result<Zeroizing<String>, PassphraseError> {
+        rpassword::prompt_password(format!("Enter passphrase for {}: ", key_path.display()))
+            .map(Zeroizing::new)
+            .map_err(|error| PassphraseError::new(error.to_string()))
+    }
 }

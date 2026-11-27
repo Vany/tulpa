@@ -42,15 +42,15 @@ pub struct LinkConfig {
     /// Whether the product should start the link; explicit spike commands ignore it.
     #[serde(default)]
     pub enabled: bool,
+    /// Optional OpenSSH Host alias resolved with `ssh -G`; bypasses discovery.
+    #[serde(default)]
+    pub host: String,
     /// SSH user, supplied only by local configuration.
     #[serde(default)]
     pub user: String,
-    /// OpenSSH host public key used as a fail-closed pin.
-    #[serde(default)]
-    pub pinned_host_key: String,
-    /// Stable label for the protected P-256 key.
-    #[serde(default)]
-    pub signing_key_label: String,
+    /// OpenSSH unknown-host policy: `ask`, `yes`, or `no`.
+    #[serde(default = "default_strict_host_key_checking")]
+    pub strict_host_key_checking: String,
     /// Bonjour service type used on the LAN.
     #[serde(default = "default_mdns_service")]
     pub mdns_service: String,
@@ -108,6 +108,10 @@ impl Error for ConfigError {}
 
 fn default_mdns_service() -> String {
     DEFAULT_MDNS_SERVICE.to_owned()
+}
+
+fn default_strict_host_key_checking() -> String {
+    "ask".to_owned()
 }
 
 const fn default_browse_timeout_ms() -> u64 {

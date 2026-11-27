@@ -272,9 +272,17 @@ mod tests {
     fn tcp_probe_uses_current_listeners() -> Result<(), Box<dyn std::error::Error>> {
         let listener = TcpListener::bind("127.0.0.1:0")?;
         let live = Endpoint::new("127.0.0.1", listener.local_addr()?.port());
-        let closed_listener = TcpListener::bind("127.0.0.1:0")?;
-        let closed = Endpoint::new("127.0.0.1", closed_listener.local_addr()?.port());
-        drop(closed_listener);
+        // A port held for the whole test by a socket that is bound and never listens: connects to it are
+        // refused at once, and no other test can bind it (this socket has no SO_REUSEADDR). A listener
+        // dropped here instead freed its port for another test to take, and the probe found it live.
+        // A held listener is no closed port either: the kernel completes the handshake from its backlog.
+        let held = tokio::net::TcpSocket::new_v4()?;
+        held.bind("127.0.0.1:0".parse()?)?;
+        let closed = Endpoint::new("127.0.0.1", held.local_addr()?.port());
+        assert!(
+            TcpListener::bind(("127.0.0.1", closed.port)).is_err(),
+            "another test could take the closed port and answer on it"
+        );
 
         let selected = select_live_or_tunnels(
             Vec::new(),

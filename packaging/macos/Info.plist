@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Tulpa</string>
+	<key>CFBundleExecutable</key>
+	<string>tulpa</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.tulpa.app</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Tulpa</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@VERSION@</string>
+	<key>CFBundleVersion</key>
+	<string>@VERSION@</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Tulpa records your microphone only while you or your agent have started listening, and stops when you pause or quit from the menu bar.</string>
+	<key>NSAudioCaptureUsageDescription</key>
+	<string>Tulpa records the sound your Mac plays (for example the other side of a call) only while listening is started, and stops when you pause or quit from the menu bar.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Tulpa takes one photo with your camera only when your agent asks for one and the eyes are on in its settings. It never records video; Pause in the menu bar refuses every photo.</string>
+</dict>
+</plist>

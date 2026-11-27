@@ -1,0 +1,17 @@
+# For test/public-check/run.sh: each line must fail scripts/public-check.sh in a tracked file outside
+# test/fixtures/, and in a commit message. Lines starting with # are skipped.
+10.0.0.1
+host 10.1.2.3:22
+10.255.255.254/32
+172.16.0.1
+via 172.31.255.255
+192.168.0.1
+"192.168.1.31"
+100.64.0.1
+100.127.255.254
+ssh://printer.local:22
+user@studio-mac.local
+"box.local."
+BOX.LOCAL
+a.b.local
+see /Users/someone/src

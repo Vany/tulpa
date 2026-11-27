@@ -1,0 +1,27 @@
+# For test/public-check/run.sh: each line must pass scripts/public-check.sh anywhere. Lines starting with # are
+# skipped.
+192.0.2.10
+198.51.100.7:2222
+203.0.113.200
+hub.example
+ssh://server.example:22
+110.1.2.3
+11.0.0.1
+172.15.0.1
+172.32.0.1
+192.169.1.1
+1.10.0.0.1
+10.0.0.256
+100.63.255.255
+100.128.0.1
+version 10.15
+the 10/8, 172.16/12 and 192.168/16 ranges
+_ssh._tcp.local.
+"_tulpa-ssh._tcp.local."
+/home/u/work/r/.env.local
+"localhost.local."
+self.local_addr()
+self.localize()
+~/.local/share
+/Users/Shared/x
+/Users/<you>/x

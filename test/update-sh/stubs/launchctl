@@ -1,0 +1,210 @@
+#!/bin/sh
+# launchctl stand-in for the update.sh harness. Records every call in $STUB_STATE/calls and keeps "loaded"
+# jobs as copies of their plists (with their domain) in $STUB_STATE/loaded. Like launchd it runs a job's
+# ProgramArguments on bootstrap (RunAtLoad) and on kickstart — synchronously, which is what makes a harness
+# "tick" — and keeps the app alive as the loaded plist's KeepAlive says: a supervisor restarts the installed
+# bundle's executable whenever it exits (KeepAlive = true), or whenever it ends with anything but status 0
+# ({ SuccessfulExit = false }; Quit exits 0), so `kickstart -k` (or killing the pid it reports) starts
+# whatever bundle is installed. Any other KeepAlive restarts nothing; a kickstart starts the app again.
+# A bootout of the app's job ends the supervisor and sends the app SIGTERM (SIGKILL 2 s later: launchd's
+# exit timeout, shortened). The job stays loaded until the app is gone, so `print` shows it and a bootstrap
+# fails (5) meanwhile.
+# $STUB_STATE/lwcr, written by the harness, models the launch constraint seen on a Mac running a
+# self-signed build: `on`, a bootstrap of the app's job pins the installed executable (its cksum stands in
+# for the cdhash, in $STUB_STATE/pin) and a spawn of any other executable fails (state = spawn failed,
+# last exit code = 78), which kickstart -k does not change; `stuck`, only the first bootstrap pins.
+#   STUB_SSH=1  the GUI domain refuses bootstrap, bootout and kickstart (125), as it can for an ssh session;
+#               print and list still answer
+#   STUB_KILL_INSTALLER=bootstrap|bootout|kickstart  after that call (bootout, kickstart: of the app's job)
+#                                            SIGKILLs the pid in $STUB_STATE/installer.pid, as Tulpa's hands
+#                                            kill an installer whose Tulpa is stopped
+#   STUB_PRINT_STYLE=key  `print` names the app's process type `ProcessType = <value>` instead of
+#                         `spawn type = <value> (n)`: launchctl's real field is undocumented, and update.sh
+#                         must read both. Absent from the loaded plist: `spawn type = daemon (3)` (or no line).
+set -u
+state=${STUB_STATE:?}
+app_label=${TULPA_LABEL:-com.tulpa.app}
+mkdir -p "$state/loaded"
+printf 'launchctl %s\n' "$*" >>"$state/calls"
+
+label_of() { printf '%s\n' "${1##*/}"; }
+domain_of() { printf '%s\n' "${1%/*}"; }
+plist_label() { sed -n 's:.*<key>Label</key><string>\([^<]*\)</string>.*:\1:p' "$1" | head -n 1; }
+loaded_in() { [ -f "$state/loaded/$2.plist" ] && [ "$(cat "$state/loaded/$2.domain")" = "$1" ]; }
+refused() {
+	case $1 in gui/*) [ -n "${STUB_SSH:-}" ] || return 1 ;; *) return 1 ;; esac
+	printf '%s failed: 125: Domain does not support specified action\n' "$2" >&2
+	exit 125
+}
+
+run_job() {
+	plist=$state/loaded/$1.plist
+	[ -f "$plist" ] || return 0
+	set --
+	while IFS= read -r arg; do set -- "$@" "$arg"; done <<EOF
+$(sed -n '/<key>ProgramArguments<\/key>/,/<\/array>/s:.*<string>\(.*\)</string>.*:\1:p' "$plist")
+EOF
+	"$@" >>"$state/job-out" 2>&1
+}
+
+app_pid() { [ -f "$state/app.pid" ] && kill -0 "$(cat "$state/app.pid")" 2>/dev/null && cat "$state/app.pid"; }
+installed_exe() { printf '%s\n' "$HOME/Applications/Tulpa.app/Contents/MacOS/tulpa"; }
+cdhash() { cksum <"$1" 2>/dev/null | awk '{ print $1 }'; }
+lwcr() { cat "$state/lwcr" 2>/dev/null; }
+
+# Whether the loaded plist's KeepAlive starts the app again after it exited with status $1.
+keeps_alive_after() {
+	case $(tr -d ' \t\n' <"$state/loaded/$app_label.plist" 2>/dev/null) in
+	*'<key>KeepAlive</key><true/>'*) return 0 ;;
+	*'<key>KeepAlive</key><dict><key>SuccessfulExit</key><false/></dict>'*) [ "$1" -ne 0 ] ;;
+	*) return 1 ;;
+	esac
+}
+
+# KeepAlive: one supervisor per fake home, restarting the installed executable as keeps_alive_after says —
+# unless the launch constraint refuses it.
+keep_alive() {
+	if [ -f "$state/supervisor.pid" ] && kill -0 "$(cat "$state/supervisor.pid")" 2>/dev/null; then
+		pid=$(app_pid) && kill -KILL "$pid" 2>/dev/null
+		return 0
+	fi
+	(
+		while :; do
+			exe=$(installed_exe)
+			kind=$(cat "$HOME/Applications/Tulpa.app/Contents/kind" 2>/dev/null)
+			printf '%s\n' $(($(cat "$state/app.runs" 2>/dev/null || echo 0) + 1)) >"$state/app.runs"
+			if [ -n "$(lwcr)" ] && [ "$(cdhash "$exe")" != "$(cat "$state/pin" 2>/dev/null)" ]; then
+				printf 'spawn refused %s (%s): launch constraint\n' "$exe" "$kind" >>"$state/calls"
+				printf 'spawn failed\n' >"$state/app.state"
+				printf '78: EX_CONFIG\n' >"$state/app.exit"
+				sleep 0.5
+				continue
+			fi
+			"$exe" &
+			printf '%s\n' "$!" >"$state/app.pid"
+			printf 'running\n' >"$state/app.state"
+			printf 'started %s (%s)\n' "$exe" "$kind" >>"$state/calls"
+			wait "$!"
+			status=$?
+			if [ "$status" -gt 128 ]; then
+				printf 'signal %s\n' $((status - 128)) >"$state/app.exit"
+			else
+				printf '%s\n' "$status" >"$state/app.exit"
+			fi
+			printf 'not running\n' >"$state/app.state"
+			if ! keeps_alive_after "$status"; then
+				printf 'exited %s: KeepAlive does not start it again\n' "$status" >>"$state/calls"
+				break
+			fi
+			sleep 0.2
+		done
+	) >/dev/null 2>&1 &
+	printf '%s\n' "$!" >"$state/supervisor.pid"
+}
+
+kill_installer() {
+	[ "${STUB_KILL_INSTALLER:-}" = "$1" ] && [ -f "$state/installer.pid" ] || return 0
+	kill -9 "$(cat "$state/installer.pid")" 2>/dev/null
+	printf 'killed the installer at %s\n' "$1" >>"$state/calls"
+}
+
+verb=${1:-}
+case $verb in
+bootstrap)
+	refused "$2" Bootstrap
+	label=$(plist_label "$3")
+	[ -n "$label" ] || exit 5
+	[ ! -f "$state/loaded/$label.plist" ] || exit 5
+	cp "$3" "$state/loaded/$label.plist"
+	printf '%s\n' "$2" >"$state/loaded/$label.domain"
+	if [ "$label" = "$app_label" ]; then
+		case $(lwcr) in
+		on) cdhash "$(installed_exe)" >"$state/pin" ;;
+		stuck) [ -s "$state/pin" ] || cdhash "$(installed_exe)" >"$state/pin" ;;
+		esac
+		printf '0\n' >"$state/app.runs"
+		rm -f "$state/app.exit"
+		keep_alive
+	elif grep -q '<key>RunAtLoad</key><true/>' "$3"; then
+		run_job "$label"
+	fi
+	kill_installer bootstrap
+	;;
+bootout)
+	refused "$(domain_of "$2")" Boot-out
+	label=$(label_of "$2")
+	loaded_in "$(domain_of "$2")" "$label" || exit 113
+	if [ "$label" = "$app_label" ]; then
+		if [ -f "$state/supervisor.pid" ]; then kill -KILL "$(cat "$state/supervisor.pid")" 2>/dev/null; fi
+		rm -f "$state/supervisor.pid"
+		pid=$(app_pid) || pid=
+		(
+			if [ -n "$pid" ]; then
+				kill -TERM "$pid" 2>/dev/null
+				n=0
+				while kill -0 "$pid" 2>/dev/null && [ "$n" -lt 10 ]; do
+					sleep 0.2
+					n=$((n + 1))
+				done
+				kill -KILL "$pid" 2>/dev/null
+			fi
+			rm -f "$state/loaded/$label.plist" "$state/loaded/$label.domain" "$state/app.state"
+		) >/dev/null 2>&1 &
+		kill_installer bootout
+	else
+		rm -f "$state/loaded/$label.plist" "$state/loaded/$label.domain"
+	fi
+	;;
+kickstart)
+	shift
+	if [ "${1:-}" = -k ]; then shift; fi
+	refused "$(domain_of "$1")" Kickstart
+	label=$(label_of "$1")
+	loaded_in "$(domain_of "$1")" "$label" || exit 113
+	if [ "$label" = "$app_label" ]; then
+		keep_alive
+		kill_installer kickstart
+	else
+		run_job "$label"
+	fi
+	;;
+print)
+	label=$(label_of "$2")
+	loaded_in "$(domain_of "$2")" "$label" || exit 113
+	printf '%s = {\n' "$2"
+	if [ "$label" = "$app_label" ]; then
+		printf '\tstate = %s\n' "$(cat "$state/app.state" 2>/dev/null || echo 'not running')"
+		if pid=$(app_pid); then printf '\tpid = %s\n' "$pid"; fi
+		printf '\truns = %s\n' "$(cat "$state/app.runs" 2>/dev/null || echo 0)"
+		case $(cat "$state/app.exit" 2>/dev/null) in
+		'') printf '\tlast exit code = (never exited)\n' ;;
+		signal\ *) printf '\tlast terminating signal = %s\n' "$(sed 's/^signal //' "$state/app.exit")" ;;
+		*) printf '\tlast exit code = %s\n' "$(cat "$state/app.exit")" ;;
+		esac
+		type=$(tr -d '\n\t' <"$state/loaded/$label.plist" | sed -n 's:.*<key>ProcessType</key> *<string>\([^<]*\)</string>.*:\1:p')
+		case ${STUB_PRINT_STYLE:-spawn}/$type in
+		key/) ;;
+		key/*) printf '\tProcessType = %s\n' "$type" ;;
+		*/Interactive) printf '\tspawn type = interactive (4)\n' ;;
+		*/) printf '\tspawn type = daemon (3)\n' ;;
+		*) printf '\tspawn type = %s\n' "$(printf '%s' "$type" | tr 'A-Z' 'a-z')" ;;
+		esac
+		if [ -n "$(lwcr)" ]; then
+			printf '\tproperties = needs LWCR update | managed LWCR | has LWCR\n'
+			printf '\tLWCR reqs = { cdhash $in [%s] }\n' "$(cat "$state/pin" 2>/dev/null)"
+		fi
+	fi
+	printf '}\n'
+	;;
+list)
+	printf 'PID\tStatus\tLabel\n'
+	for plist in "$state"/loaded/*.plist; do
+		[ -f "$plist" ] || continue
+		label=$(basename "$plist" .plist)
+		pid=-
+		if [ "$label" = "$app_label" ]; then pid=$(app_pid) || pid=-; fi
+		printf '%s\t0\t%s\n' "$pid" "$label"
+	done
+	;;
+*) exit 64 ;;
+esac

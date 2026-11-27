@@ -1,6 +1,10 @@
-# Intended configuration, not yet parsed by the skeleton.
+# Example configuration; the transport spike parses only the link section.
 # Keep real values only in ~/.config/tulpa/config.toml, outside the checkout.
 # Placeholders are deliberately unusable. No organ starts enabled.
+
+# Debug lines in the local logs (the ears' raw recognition in ears.log); off by
+# default. Top-level: it must stay above the first [section].
+debug = false
 
 [app]
 start_paused = true
@@ -8,33 +12,178 @@ log_directory = "~/Library/Logs/tulpa"
 
 [link]
 enabled = false
-user = "AGENT_USER"
-pinned_host_key = "PINNED_SSH_HOST_KEY"
-signing_key_label = "SECURE_ENCLAVE_KEY_LABEL"
-mdns_service = "_tulpa-ssh._tcp.local."
-discovery_timeout_ms = 1500
-probe_timeout_ms = 500
-tunnel_entry_points = [
-    { host = "TUNNEL_HOST_1", port = 0 },
-    { host = "TUNNEL_HOST_2", port = 0 },
-]
-target_host = "FORWARD_TARGET_HOST"
-target_port = 0
+# OpenSSH Host alias, resolved by the user's own ssh config and keys.
+host = ""
+# Endpoint dialed on the server side; localhost there is the broker. The Mac
+# listens on nothing: ssh -W carries the protocol over the outbound connection.
+target_host = "127.0.0.1"
+target_port = 18030
+# Device name carried by the protocol hello.
+device = "tulpa"
+# Shared token the broker's hello must carry; keep the real file outside the
+# checkout, mode 0600.
+token_file = "~/.config/tulpa/token"
+# On one of these Wi-Fi networks the server is dialed directly (each LAN address
+# in turn, 3 s each, the same host alias with no jump); if none answers there the
+# link warns (log, an event to the agent, the menu) and goes through the alias as
+# configured. Any other network goes through the alias.
+# office_ssids = ["ExampleOfficeWifi"]
+# direct_hosts = ["server.example", "192.0.2.10"]
 
 [hands]
-enabled = false
-allowed_roots = []
-named_commands = []
-tmux_windows = []
+# off | ask | on. Off refuses every verb; otherwise the policy file decides.
+mode = "off"
+# Roots, postures and named commands live in their own file (hands.example.toml).
+# The hands never read it themselves: it is on their deny list.
+policy = "~/.config/tulpa/hands.toml"
 
 [ears]
-enabled = false
+# on | off. Off refuses every ears.* and voice.* verb from the link.
+mode = "off"
+# What ears.start runs, as the tray's own child (so macOS attributes the
+# microphone and audio capture to Tulpa.app): an argv, never a shell line.
+# `~` expands to $HOME. The child gets PATH/HOME/LANG/TMPDIR only, its own
+# process group, and writes stdout/stderr to ears.log next to tulpa.log.
+# Pause, Quit and ears.stop kill the whole group; a link drop does not.
+# It also gets TULPA_DEVICE: [link] device with anything outside [A-Za-z0-9_-]
+# turned into "_", so the script can name its files per device
+# (e.g. transcript.$TULPA_DEVICE.txt); [ears] env cannot override it.
+# And since 2026-11-18 it gets TULPA_LINES_STDOUT=1: a capture that answers it
+# puts each recognised phrase on its stdout as one
+# "TULPA-EARS-LINE <t0> <t1> <line>" record and writes no transcript files
+# (nothing in the ears' path is a file); one that ignores it is still read
+# through transcript_files below. The bundle ships such a capture ready-made:
+# command = ["/bin/sh", "/Applications/Tulpa.app/Contents/Resources/ears-capture.sh"]
+# It also ships tulpa-hear, the same ears in one process (mic, system-audio
+# tap and whisper.cpp in memory; the same lines, heard.log and raw ring), as
+# an option beside the script. To switch, see docs/USE.md "The capture
+# command"; the script stays the default until you do:
+# command = ["/Applications/Tulpa.app/Contents/MacOS/tulpa-hear", "--ears"]
+command = ["/bin/bash", "~/path/to/capture.sh"]
+# The microphone, by name (the menu's "Ears mic" lists the Mac's inputs from
+# system_profiler and keeps the pick here, this one line rewritten): the capture
+# gets EARS_MIC=":<name>" (an ffmpeg avfoundation input by name, audio only),
+# over any EARS_MIC in env; a new pick restarts a running capture in its mode.
+# "" or absent: EARS_MIC as env has it (else the script's own default).
+# ffmpeg cuts that input at a ':' and may take a name that starts with a digit
+# for a device index: leave a device named like that to the script. The menu
+# greys such a device out ("use the capture script for this one") and never
+# writes it here.
+# mic_device = "Built-in Microphone"
+# Self-check, 15 s after ears.start and every 30 s after, side by side (me =
+# microphone, them = system audio): a side fails when its directory has not
+# changed for 20 s, or when err_file's newest line about it is an error (lines
+# starting "me:"/"mic:" or "them:"/"sysaudio:" name their side; a line naming
+# neither counts for both). One side failing: degraded, the capture keeps
+# running and the other side is heard; the menu line and the event ("fix")
+# name the System Settings pane that grants that side, and a click on the
+# line opens it. Both failing: deaf.
+# Both bundled captures keep each side's directory under their state dir
+# (EARS_STATE, default ~/.cache/tulpa-ears): me_dir = "<state>/me",
+# them_dir = "<state>/them". tulpa-hear writes no err_file: leave it unset
+# with tulpa-hear (its errors go to ears.log).
+me_dir = "~/path/to/capture/me"
+them_dir = "~/path/to/capture/them"
+err_file = "~/path/to/capture/errors.log"
+# Transcript lines as events: from the first start on, Tulpa tails these
+# transcript files ({device} is the TULPA_DEVICE name above, ~ expands; lines
+# "HH:MM:SS [me|them] [speaker] text") and tells the agent a new line as
+# {"event":"ears","state":"line","side":"me"|"them","mode":"<ears mode>",
+# "text":"…","ts":"<ISO-8601 UTC>"} (text without time, side and speaker,
+# up to 4000 characters), plus "speaker":"<tag>" when the line has a speaker
+# tag: one word of 1-32 ASCII letters, digits, _ or -; anything else in
+# brackets there stays in the text. Which lines go: the side decides (since
+# 2026-11-18) — every line of the microphone side ("me") goes in any mode;
+# a line of the system-audio side ("them") goes only while a call runs (mode
+# "call"), never otherwise, so a playing video or a call left in another mode
+# cannot leak other people's words. The [ears] mode is the master switch it
+# always was: "off" stops the capture and no line goes at all. Lines written
+# while paused or while no capture runs are dropped, not sent later. The keys
+# wake_words, wake_aliases, transcript_events, followup_secs and
+# followup_max_secs gated lines before 2026-11-18; they still load (an old
+# config keeps working) but do nothing now, and a set one is noted in the log
+# once at startup. The link verb ears.test <text> sends one such event (side
+# me, the current mode, "test":true) whatever the mode.
+# A capture may say the same thing on its stdout instead (the
+# TULPA_LINES_STDOUT=1 marker records above, one per phrase): those go through
+# this same door and these same rules, with the utterance's own span in the
+# record header; and the microphone's echo of the agent's own playback is
+# dropped tray-side against the in-memory playback windows before any line
+# leaves the Mac.
+# transcript_files = ["~/path/to/transcripts/me.{device}.txt", "~/path/to/transcripts/them.{device}.txt"]
+# voice.say runs /usr/bin/say -v <voice> <text>; gated by the mode above.
+voice = "Milena"
+# The capture runs with a cleared environment (PATH, HOME, LANG, TMPDIR) unless
+# inherit_env = true keeps the tray's own; env sets extra variables either way.
+# inherit_env = false
+# env = { EXAMPLE_VAR = "value" }
+# The bundled captures read, among others: EARS_MODELS (the whisper model and
+# VAD files' dir, default ~/.cache/calltx), EARS_STATE, EARS_LANG (ru),
+# EARS_PROMPT, EARS_DEAF_S (300), EARS_RING_DIR, EARS_RING_MAX_MB (8).
+# env values go as written, with no ~ expansion:
+# env = { EARS_MODELS = "/path/to/models" }
+# (removed: speaking_file) Playback windows now live in the tray's memory; the
+# microphone's echo of the agent's own voice is dropped tray-side, per device,
+# with no file in the path. A speaking_file line in an old config is ignored.
+# The agent's own voice for voice.say: a synthesis command ({text} is one
+# argument, no shell) that prints the path of a WAV; given 20 s, else `say`
+# with `voice` speaks instead. voice_post optionally processes {in} → {out}.
+# voice_synth = ["~/path/to/venv/bin/python", "~/path/to/tts.py", "{text}"]
+# voice_serve keeps the model loaded: a resident command (no {text}) reading one
+# sentence per stdin line and answering each with a WAV path line (or "ERR ...").
+# voice.say cuts the text into sentences and renders the next while one plays.
+# voice_serve = ["~/path/to/venv/bin/python", "~/path/to/tts.py", "--serve"]
+# voice_serve_plays = true makes the resident play the sound itself (streamed
+# synthesis): it gets the whole text and answers "start <i> <ms>", "end <i> <ms>",
+# then "done" (or "ERR ..."). Off by default.
+# voice_serve_plays = false
+# voice_cwd = "~/path/to"
+# voice_post = ["/opt/homebrew/bin/ffmpeg", "-loglevel", "error", "-y", "-i", "{in}", "-af", "alimiter=limit=0.95", "{out}"]
+
+# Ears modes, picked from the menu (and the link verb ears.mode <id>): off,
+# office, alone, meeting, call, stream. Each mode runs its own capture command;
+# call falls back to `command` above. A mode with no command is shown and
+# refused when picked. One script for every mode is fine (it captures both
+# sides; the mode is what the agent is told).
+# The mode last chosen (menu, ears.mode, ears.start; ears.stop and Pause keep
+# off) is saved to `ears-mode` beside this file, one line, and the next start
+# comes back in it if it is still configured. Quit leaves the file as it is;
+# delete it to start with the ears off.
+# [ears.modes]
+# office = ["/bin/sh", "~/path/to/capture.sh"]
+# alone = ["/bin/sh", "~/path/to/capture.sh"]
+# meeting = ["/bin/sh", "~/path/to/capture.sh"]
+# call = ["/bin/sh", "~/path/to/capture.sh"]
+# stream = ["/bin/sh", "~/path/to/capture.sh"]
 
 [voice]
 enabled = false
+# Where voice.say sounds, by name (the menu's "Voice output" lists the Mac's
+# outputs and keeps the pick here): say gets -a <name>, a resident that plays
+# itself (voice_serve_plays) gets --device <name> unless its argv has one.
+# A synthesized WAV plays with afplay, which can't choose a device: it follows
+# the system default output. "" or absent: the system default output.
+# output_device = "Built-in Output"
+# How fast voice.say speaks, 0.5 to 2 (absent or 1: normal). It is applied once,
+# by what plays the sound: say -r (175 words a minute × rate), afplay -r <rate>
+# for every synthesized WAV, --speed <rate> for a resident that plays itself
+# (voice_serve_plays) unless its argv has one. voice_synth and a WAV-rendering
+# voice_serve get no --speed: afplay already speeds their clips up. A tempo
+# change in voice_post (e.g. ffmpeg atempo) multiplies with it: use one.
+# rate = 1.0
 
 [eyes]
-enabled = false
+# off | ask | on, for eyes.photo: one still from the Mac's default camera, taken
+# only when the agent asks (ask: after Allow in the menu, 30 s to click). Off
+# refuses it ("eyes: off in config"). The bundle's camera helper takes it as
+# Tulpa's own child, so macOS asks once, at the Mac, for Tulpa's camera grant.
+# The JPEG is kept in ~/Library/Application Support/tulpa/photos (0700; the
+# file 0600, named by its UTC second) and leaves the Mac once, through the data
+# stream's xfer.get, which deletes it when the receiver's verdict names it. The
+# get right after the photo is served whatever [hands] says. A photo not
+# fetched is deleted once it is 24 h old.
+mode = "off"
+# Screen capture is not built yet; these are not read.
 excluded_windows = []
 camera_on_request = true
 
@@ -68,3 +217,39 @@ enabled = false
 
 [tray]
 enabled = false
+
+[keepawake]
+# Tulpa's own keep-awake, the only one a Mac needs: a caffeinate -i -s child (no
+# idle sleep, no system sleep on AC power) held for as long as Tulpa runs. A Mac
+# that sleeps drops the link, and nothing reaches it until someone wakes it. The
+# menu and ears.status show it with its flags ("keep-awake: on (always, -is)").
+# false: held only while the agent works on the Mac (a hands request in flight,
+# the ears on).
+always = true
+# caffeinate's assertion flags, the letters d i m s u only: -d display awake
+# (where a sleeping display stops the system-audio capture), -i no idle sleep,
+# -m no disk idle sleep, -s no system sleep on AC power, -u user active. Any
+# other value is refused at start, logged, and "-i -s" is held instead.
+# flags = "-i -s"
+
+[forward]
+# Port forwards on request (forward.open): a loopback port on this Mac and the
+# same port on the server's loopback, joined for a few minutes through the link's
+# own ssh. "out" (N →): this Mac's 127.0.0.1:N reaches the server's, e.g. an OAuth
+# redirect your browser follows to a tool's listener on the server; it closes after
+# its first connection unless asked otherwise, 5 min by default, 15 at most. "in"
+# (N ←): the server's 127.0.0.1:N reaches this Mac's; 15 min by default, 60 at most.
+# Only the ports listed here, whatever the agent asks; none listed: no forwards.
+# Each open forward is a line in the menu; Pause all and Quit close them all.
+# The server must allow them too (docs/DEVELOP.md, "Port forwards on the server").
+# ports = [53682]
+
+[linkserve]
+# Link serves on request (#0375, link.open on the hub): a path between two
+# devices' localhosts, joined inside the hub — this Mac either listens on its
+# own 127.0.0.1:<port> (the client side, "link.serve-client") or delivers to
+# its own 127.0.0.1:<port> (the host side, "link.serve-host"). tcp connections
+# or udp datagrams (framed), up to 16 peers at once, for the link's time limit
+# at most. Only the ports listed here, whatever the hub granted; none listed:
+# no link serves. Each is a line in the menu; Pause all and Quit close them.
+# ports = [24642, 25565]

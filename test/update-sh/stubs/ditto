@@ -1,0 +1,5 @@
+#!/bin/sh
+# ditto stand-in for the update.sh harness: `ditto SRC DST` copies the bundle SRC to the new directory DST.
+printf 'ditto %s\n' "$*" >>"${STUB_STATE:?}/calls"
+[ $# -eq 2 ] || exit 64
+cp -R "$1" "$2"

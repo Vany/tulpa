@@ -1,0 +1,13 @@
+ears: capture started (mic, tap)
+TULPA-EARS-LINE 1795341588000 1795341589500 09:59:50 [me] Early pancake breakfast.	1795341588000,1795341588500,early
+[me] partial line without the marker
+TULPA-EARS-LINE 1795341602000 1795341604000 10:00:04 [me] Garden gate painted green.	1795341602000,1795341602400,garden
+TULPA-EARS-LINE 1795341610000 1795341614000 10:00:14 [me] Walked along river, after lunch.
+
+TULPA-EARS-LINE 1795341620000 1795341623000 10:00:23 [them] <voice 3.0s>
+TULPA-EARS-LINE 0 0 10:00:30 [me] Quiet morning library.
+TULPA-EARS-LINE 1795341640000 1795341642000 10:00:42 [them] [guest] Please close kitchen door. [intonation: falling]
+ears: device switched
+TULPA-EARS-LINE 1795341650000 1795341652000 10:00:52 [me] Bring blue folder tomorrow?
+TULPA-EARS-LINE garbled
+TULPA-EARS-LINE 1795341688000 1795341689500 10:01:30 [me] Evening violin concert.

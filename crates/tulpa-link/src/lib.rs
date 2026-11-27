@@ -1,23 +1,33 @@
 //! One outbound SSH connection carrying a channel for each organ.
 //!
-//! The transport spike verifies pinned host keys before authentication, uses a
-//! local protected signer, and supports a single direct-TCP/IP exchange.
+//! The transport spike uses native OpenSSH identities and known-host files,
+//! chooses a live route, and supports a single direct-TCP/IP exchange.
 
-#[cfg(target_os = "macos")]
+mod alias;
 mod client;
 mod config;
 mod discovery;
-#[cfg(target_os = "macos")]
-mod signer;
-#[cfg(target_os = "macos")]
+mod identity;
+mod known_hosts;
+mod passphrase;
+mod transport;
+pub use alias::{
+    AliasError, JumpReference, ResolvedHost, expand_proxy_command, parse_jump_reference,
+    resolve_host,
+};
 pub use client::{
-    Endpoint, ExchangeConfig, HostKeyError, LinkError, PinnedHostKeyHandler, exchange_line,
+    Endpoint, ExchangeConfig, LinkError, configured_user, default_user, exchange_line,
+    home_directory,
 };
 pub use config::{ConfigError, LinkConfig, LocalConfig};
-#[cfg(target_os = "macos")]
 pub use discovery::{DiscoveryConfig, DiscoveryError, Route, SelectedEndpoint, discover};
-#[cfg(target_os = "macos")]
-pub use signer::{ProtectedP256Signer, SignerError, public_key_from_sec1};
+pub use identity::{IdentityConfigError, IdentityFile, IdentitySelection, select_identity_files};
+pub use known_hosts::{
+    HostKeyError, HostKeyPrompt, KnownHostsHandler, SharedHostKeyPrompt, StrictHostKeyChecking,
+    default_known_hosts_path,
+};
+pub use passphrase::{PassphraseError, PassphraseProvider, load_private_key};
+pub use transport::{ProxyTransport, TransportError};
 
 /// Initial capability boundary for the link organ; no implementation is provided.
 pub trait Link {

@@ -1,0 +1,10 @@
+{"ts": "2026-11-22T09:59:59.900Z", "dir": "out", "kind": "event", "frame": {"event": "hands", "state": "done"}}
+{"ts": "2026-11-22T10:00:04.300Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "me", "mode": "office", "text": "Garden gate painted green."}}
+{"ts": "2026-11-22T10:00:14.000Z", "dir": "in", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "me", "mode": "office", "text": "Walked along river, after lunch."}}
+{"ts": "2026-11-22T10:00:14.800Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "me", "mode": "office", "text": "Walked along river, after lunch."}}
+{"ts": "2026-11-22T10:05:00.000Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "me", "mode": "office", "text": "Walked along river, after lunch."}}
+{"ts": "2026-11-22T10:00:23.200Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "them", "mode": "office", "text": "<voice 3.0s>"}}
+{"ts": "2026-11-22T10:00:30.100Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "me", "mode": "office", "text": "Quiet morning library."}}
+{"ts": "2026-11-22T10:00:42.300Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "line", "side": "them", "mode": "office", "text": "Please close kitchen door. [intonation: falling]"}}
+{"ts": "2026-11-22T10:00:42.350Z", "dir": "out", "kind": "event", "frame": {"event": "ears", "state": "speaking", "side": "them", "mode": "office", "text": "Please close kitchen door."}}
+not json at all

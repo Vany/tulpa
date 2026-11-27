@@ -1,0 +1,22 @@
+{"no_speech":false,"tokens":[
+{"hex":"20d09fd180d0b8d0b2d0b5d182","text":" Привет","start_ms":0,"end_ms":960,"p":0.8606016},
+{"hex":"2c","text":",","start_ms":960,"end_ms":1110,"p":0.45956653},
+{"hex":"20d18dd182d0be","text":" это","start_ms":1110,"end_ms":1590,"p":0.98230374},
+{"hex":"20d0bfd180d0bed0b2d0b5d180","text":" провер","start_ms":1590,"end_ms":2550,"p":0.7661682},
+{"hex":"d0bad0b0","text":"ка","start_ms":2550,"end_ms":2860,"p":0.9994832},
+{"hex":"20d180d0b0d181d0bf","text":" расп","start_ms":3010,"end_ms":3340,"p":0.9714968},
+{"hex":"d0bed0b7","text":"оз","start_ms":3670,"end_ms":3800,"p":0.9996968},
+{"hex":"d0bd","text":"н","start_ms":3860,"end_ms":3900,"p":0.9988239},
+{"hex":"d0b0d0b2","text":"ав","start_ms":3970,"end_ms":4260,"p":0.9989763},
+{"hex":"d0b0d0bdd0b8d18f","text":"ания","start_ms":4330,"end_ms":4900,"p":0.9485578},
+{"hex":"20d180","text":" р","start_ms":4900,"end_ms":5060,"p":0.9744624},
+{"hex":"d0b5d187","text":"еч","start_ms":5060,"end_ms":5340,"p":0.9998665},
+{"hex":"d0b8","text":"и","start_ms":5340,"end_ms":5520,"p":0.9999714},
+{"hex":"2e","text":".","start_ms":5590,"end_ms":5750,"p":0.62684065},
+{"hex":"20d0a1d0b5d0b3d0bed0b4d0bdd18f","text":" Сегодня","start_ms":5760,"end_ms":7760,"p":0.9499809},
+{"hex":"20d185d0bed180d0bed188","text":" хорош","start_ms":8770,"end_ms":9130,"p":0.9926552},
+{"hex":"d0b0d18f","text":"ая","start_ms":9430,"end_ms":9760,"p":0.9983115},
+{"hex":"20d0bfd0bed0b3","text":" пог","start_ms":9760,"end_ms":10620,"p":0.9972011},
+{"hex":"d0bed0b4d0b0","text":"ода","start_ms":10620,"end_ms":11260,"p":0.999918},
+{"hex":"2e","text":".","start_ms":11480,"end_ms":11500,"p":0.8679687}
+]}

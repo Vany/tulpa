@@ -1,0 +1,3 @@
+#!/bin/sh
+# open stand-in for the update.sh harness: records the call; opens nothing.
+printf 'open %s\n' "$*" >>"${STUB_STATE:?}/calls"

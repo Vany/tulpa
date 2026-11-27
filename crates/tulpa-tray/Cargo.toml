@@ -5,10 +5,70 @@ version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
-repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
 publish.workspace = true
 
 [lints]
 workspace = true
+
+# Signals itself in a child whose every thread blocks them, as the app's do; libtest's main thread does not.
+[[test]]
+name = "termination"
+harness = false
+
+[dependencies]
+rustix = { version = "1.1.6", features = ["fs", "process"] }
+# SIGTERM/SIGINT/SIGHUP handled on a thread (sigwait), safe API: unsafe is denied here. Already in Cargo.lock.
+nix = { version = "0.31.3", default-features = false, features = ["signal"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.150"
+toml = "1.2.1"
+tulpa-eyes = { version = "0.1.0", path = "../tulpa-eyes" }
+tulpa-files = { version = "0.1.0", path = "../tulpa-files" }
+tulpa-hands = { version = "0.1.0", path = "../tulpa-hands" }
+# Path, std only: Pause, the link's death and Quit as events the loops wait on, not flags they poll.
+tulpa-stop = { version = "0.1.0", path = "../tulpa-stop" }
+
+# Test rigs on a real filesystem and a real local socket; already in Cargo.lock.
+[dev-dependencies]
+sha2 = { version = "0.11.0", default-features = false }
+tempfile = "3"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# The owner's Allow/Deny dialog: an NSAlert run as a sheet (macos.rs). These four are already in Cargo.lock at
+# these versions, through tao, muda and tray-icon. Only the features named here are used, all through the
+# crates' safe API: unsafe is denied here.
+block2 = "0.6.2"
+muda = "0.21"
+objc2 = "0.6.5"
+objc2-app-kit = { version = "0.3.2", default-features = false, features = [
+    "std",
+    "block2",
+    "NSAlert",
+    "NSApplication",
+    "NSButton",
+    "NSButtonCell",
+    "NSCell",
+    "NSControl",
+    "NSGraphics",
+    "NSPanel",
+    "NSResponder",
+    "NSScrollView",
+    "NSText",
+    "NSTextField",
+    "NSTextView",
+    "NSView",
+    "NSWindow",
+] }
+objc2-foundation = { version = "0.3.2", default-features = false, features = [
+    "std",
+    "NSGeometry",
+    "NSRange",
+    "NSString",
+    "objc2-core-foundation",
+] }
+tao = "0.37"
+# Path: CoreAudio's device events, which re-read the device pickers' lists (shared with tulpa-hear's mic).
+tulpa-audio-events = { version = "0.1.0", path = "../tulpa-audio-events" }
+tray-icon = "0.26"

@@ -1,0 +1,2815 @@
+{
+	"systeminfo": "WHISPER : VITISAI = 0 | COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "large",
+		"multilingual": true,
+		"vocab": 51866,
+		"audio": {
+			"ctx": 1500,
+			"state": 1280,
+			"head": 20,
+			"layer": 32
+		},
+		"text": {
+			"ctx": 448,
+			"state": 1280,
+			"head": 20,
+			"layer": 4
+		},
+		"mels": 128,
+		"ftype": 8
+	},
+	"params": {
+		"model": "/m/ggml-large-v3-turbo-q5_0.bin",
+		"language": "ru",
+		"translate": false
+	},
+	"result": {
+		"language": "ru"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,300",
+				"to": "00:00:02,300"
+			},
+			"offsets": {
+				"from": 300,
+				"to": 2300
+			},
+			"text": " Red boat sails.",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,300",
+						"to": "00:00:00,300"
+					},
+					"offsets": {
+						"from": 300,
+						"to": 300
+					},
+					"id": 50365,
+					"p": 0.89534,
+					"t_dtw": -1
+				},
+				{
+					"text": " Red",
+					"timestamps": {
+						"from": "00:00:00,300",
+						"to": "00:00:00,913"
+					},
+					"offsets": {
+						"from": 300,
+						"to": 913
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " boat",
+					"timestamps": {
+						"from": "00:00:00,933",
+						"to": "00:00:01,546"
+					},
+					"offsets": {
+						"from": 933,
+						"to": 1546
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " sails",
+					"timestamps": {
+						"from": "00:00:01,566",
+						"to": "00:00:02,179"
+					},
+					"offsets": {
+						"from": 1566,
+						"to": 2179
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:02,179",
+						"to": "00:00:02,199"
+					},
+					"offsets": {
+						"from": 2179,
+						"to": 2199
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_115]",
+					"timestamps": {
+						"from": "00:00:02,300",
+						"to": "00:00:02,300"
+					},
+					"offsets": {
+						"from": 2300,
+						"to": 2300
+					},
+					"id": 50480,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:02,600",
+				"to": "00:00:04,600"
+			},
+			"offsets": {
+				"from": 2600,
+				"to": 4600
+			},
+			"text": " Old clock ticks.",
+			"tokens": [
+				{
+					"text": " Old",
+					"timestamps": {
+						"from": "00:00:02,600",
+						"to": "00:00:03,213"
+					},
+					"offsets": {
+						"from": 2600,
+						"to": 3213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " clock",
+					"timestamps": {
+						"from": "00:00:03,233",
+						"to": "00:00:03,846"
+					},
+					"offsets": {
+						"from": 3233,
+						"to": 3846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " ticks",
+					"timestamps": {
+						"from": "00:00:03,866",
+						"to": "00:00:04,479"
+					},
+					"offsets": {
+						"from": 3866,
+						"to": 4479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:04,479",
+						"to": "00:00:04,499"
+					},
+					"offsets": {
+						"from": 4479,
+						"to": 4499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_230]",
+					"timestamps": {
+						"from": "00:00:04,600",
+						"to": "00:00:04,600"
+					},
+					"offsets": {
+						"from": 4600,
+						"to": 4600
+					},
+					"id": 50595,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:04,900",
+				"to": "00:00:06,900"
+			},
+			"offsets": {
+				"from": 4900,
+				"to": 6900
+			},
+			"text": " Tall pine sways.",
+			"tokens": [
+				{
+					"text": " Tall",
+					"timestamps": {
+						"from": "00:00:04,900",
+						"to": "00:00:05,513"
+					},
+					"offsets": {
+						"from": 4900,
+						"to": 5513
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " pine",
+					"timestamps": {
+						"from": "00:00:05,533",
+						"to": "00:00:06,146"
+					},
+					"offsets": {
+						"from": 5533,
+						"to": 6146
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " sways",
+					"timestamps": {
+						"from": "00:00:06,166",
+						"to": "00:00:06,779"
+					},
+					"offsets": {
+						"from": 6166,
+						"to": 6779
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:06,779",
+						"to": "00:00:06,799"
+					},
+					"offsets": {
+						"from": 6779,
+						"to": 6799
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_345]",
+					"timestamps": {
+						"from": "00:00:06,900",
+						"to": "00:00:06,900"
+					},
+					"offsets": {
+						"from": 6900,
+						"to": 6900
+					},
+					"id": 50710,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:07,200",
+				"to": "00:00:09,200"
+			},
+			"offsets": {
+				"from": 7200,
+				"to": 9200
+			},
+			"text": " Cold wind blows.",
+			"tokens": [
+				{
+					"text": " Cold",
+					"timestamps": {
+						"from": "00:00:07,200",
+						"to": "00:00:07,813"
+					},
+					"offsets": {
+						"from": 7200,
+						"to": 7813
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " wind",
+					"timestamps": {
+						"from": "00:00:07,833",
+						"to": "00:00:08,446"
+					},
+					"offsets": {
+						"from": 7833,
+						"to": 8446
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " blows",
+					"timestamps": {
+						"from": "00:00:08,466",
+						"to": "00:00:09,079"
+					},
+					"offsets": {
+						"from": 8466,
+						"to": 9079
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:09,079",
+						"to": "00:00:09,099"
+					},
+					"offsets": {
+						"from": 9079,
+						"to": 9099
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_460]",
+					"timestamps": {
+						"from": "00:00:09,200",
+						"to": "00:00:09,200"
+					},
+					"offsets": {
+						"from": 9200,
+						"to": 9200
+					},
+					"id": 50825,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:09,500",
+				"to": "00:00:11,500"
+			},
+			"offsets": {
+				"from": 9500,
+				"to": 11500
+			},
+			"text": " Small bird sings.",
+			"tokens": [
+				{
+					"text": " Small",
+					"timestamps": {
+						"from": "00:00:09,500",
+						"to": "00:00:10,113"
+					},
+					"offsets": {
+						"from": 9500,
+						"to": 10113
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " bird",
+					"timestamps": {
+						"from": "00:00:10,133",
+						"to": "00:00:10,746"
+					},
+					"offsets": {
+						"from": 10133,
+						"to": 10746
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " sings",
+					"timestamps": {
+						"from": "00:00:10,766",
+						"to": "00:00:11,379"
+					},
+					"offsets": {
+						"from": 10766,
+						"to": 11379
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:11,379",
+						"to": "00:00:11,399"
+					},
+					"offsets": {
+						"from": 11379,
+						"to": 11399
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_575]",
+					"timestamps": {
+						"from": "00:00:11,500",
+						"to": "00:00:11,500"
+					},
+					"offsets": {
+						"from": 11500,
+						"to": 11500
+					},
+					"id": 50940,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:11,800",
+				"to": "00:00:13,800"
+			},
+			"offsets": {
+				"from": 11800,
+				"to": 13800
+			},
+			"text": " Gray stone rests.",
+			"tokens": [
+				{
+					"text": " Gray",
+					"timestamps": {
+						"from": "00:00:11,800",
+						"to": "00:00:12,413"
+					},
+					"offsets": {
+						"from": 11800,
+						"to": 12413
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " stone",
+					"timestamps": {
+						"from": "00:00:12,433",
+						"to": "00:00:13,046"
+					},
+					"offsets": {
+						"from": 12433,
+						"to": 13046
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " rests",
+					"timestamps": {
+						"from": "00:00:13,066",
+						"to": "00:00:13,679"
+					},
+					"offsets": {
+						"from": 13066,
+						"to": 13679
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:13,679",
+						"to": "00:00:13,699"
+					},
+					"offsets": {
+						"from": 13679,
+						"to": 13699
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_690]",
+					"timestamps": {
+						"from": "00:00:13,800",
+						"to": "00:00:13,800"
+					},
+					"offsets": {
+						"from": 13800,
+						"to": 13800
+					},
+					"id": 51055,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:14,100",
+				"to": "00:00:16,100"
+			},
+			"offsets": {
+				"from": 14100,
+				"to": 16100
+			},
+			"text": " Warm bread bakes.",
+			"tokens": [
+				{
+					"text": " Warm",
+					"timestamps": {
+						"from": "00:00:14,100",
+						"to": "00:00:14,713"
+					},
+					"offsets": {
+						"from": 14100,
+						"to": 14713
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " bread",
+					"timestamps": {
+						"from": "00:00:14,733",
+						"to": "00:00:15,346"
+					},
+					"offsets": {
+						"from": 14733,
+						"to": 15346
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " bakes",
+					"timestamps": {
+						"from": "00:00:15,366",
+						"to": "00:00:15,979"
+					},
+					"offsets": {
+						"from": 15366,
+						"to": 15979
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:15,979",
+						"to": "00:00:15,999"
+					},
+					"offsets": {
+						"from": 15979,
+						"to": 15999
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_805]",
+					"timestamps": {
+						"from": "00:00:16,100",
+						"to": "00:00:16,100"
+					},
+					"offsets": {
+						"from": 16100,
+						"to": 16100
+					},
+					"id": 51170,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:16,400",
+				"to": "00:00:18,400"
+			},
+			"offsets": {
+				"from": 16400,
+				"to": 18400
+			},
+			"text": " Soft rain falls.",
+			"tokens": [
+				{
+					"text": " Soft",
+					"timestamps": {
+						"from": "00:00:16,400",
+						"to": "00:00:17,013"
+					},
+					"offsets": {
+						"from": 16400,
+						"to": 17013
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " rain",
+					"timestamps": {
+						"from": "00:00:17,033",
+						"to": "00:00:17,646"
+					},
+					"offsets": {
+						"from": 17033,
+						"to": 17646
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " falls",
+					"timestamps": {
+						"from": "00:00:17,666",
+						"to": "00:00:18,279"
+					},
+					"offsets": {
+						"from": 17666,
+						"to": 18279
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:18,279",
+						"to": "00:00:18,299"
+					},
+					"offsets": {
+						"from": 18279,
+						"to": 18299
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_920]",
+					"timestamps": {
+						"from": "00:00:18,400",
+						"to": "00:00:18,400"
+					},
+					"offsets": {
+						"from": 18400,
+						"to": 18400
+					},
+					"id": 51285,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:18,700",
+				"to": "00:00:20,700"
+			},
+			"offsets": {
+				"from": 18700,
+				"to": 20700
+			},
+			"text": " Bright star glows.",
+			"tokens": [
+				{
+					"text": " Bright",
+					"timestamps": {
+						"from": "00:00:18,700",
+						"to": "00:00:19,313"
+					},
+					"offsets": {
+						"from": 18700,
+						"to": 19313
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " star",
+					"timestamps": {
+						"from": "00:00:19,333",
+						"to": "00:00:19,946"
+					},
+					"offsets": {
+						"from": 19333,
+						"to": 19946
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " glows",
+					"timestamps": {
+						"from": "00:00:19,966",
+						"to": "00:00:20,579"
+					},
+					"offsets": {
+						"from": 19966,
+						"to": 20579
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:20,579",
+						"to": "00:00:20,599"
+					},
+					"offsets": {
+						"from": 20579,
+						"to": 20599
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1035]",
+					"timestamps": {
+						"from": "00:00:20,700",
+						"to": "00:00:20,700"
+					},
+					"offsets": {
+						"from": 20700,
+						"to": 20700
+					},
+					"id": 51400,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:21,000",
+				"to": "00:00:23,000"
+			},
+			"offsets": {
+				"from": 21000,
+				"to": 23000
+			},
+			"text": " Quiet road bends.",
+			"tokens": [
+				{
+					"text": " Quiet",
+					"timestamps": {
+						"from": "00:00:21,000",
+						"to": "00:00:21,613"
+					},
+					"offsets": {
+						"from": 21000,
+						"to": 21613
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " road",
+					"timestamps": {
+						"from": "00:00:21,633",
+						"to": "00:00:22,246"
+					},
+					"offsets": {
+						"from": 21633,
+						"to": 22246
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " bends",
+					"timestamps": {
+						"from": "00:00:22,266",
+						"to": "00:00:22,879"
+					},
+					"offsets": {
+						"from": 22266,
+						"to": 22879
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:22,879",
+						"to": "00:00:22,899"
+					},
+					"offsets": {
+						"from": 22879,
+						"to": 22899
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1150]",
+					"timestamps": {
+						"from": "00:00:23,000",
+						"to": "00:00:23,000"
+					},
+					"offsets": {
+						"from": 23000,
+						"to": 23000
+					},
+					"id": 51515,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:23,300",
+				"to": "00:00:25,300"
+			},
+			"offsets": {
+				"from": 23300,
+				"to": 25300
+			},
+			"text": " Wide river flows.",
+			"tokens": [
+				{
+					"text": " Wide",
+					"timestamps": {
+						"from": "00:00:23,300",
+						"to": "00:00:23,913"
+					},
+					"offsets": {
+						"from": 23300,
+						"to": 23913
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " river",
+					"timestamps": {
+						"from": "00:00:23,933",
+						"to": "00:00:24,546"
+					},
+					"offsets": {
+						"from": 23933,
+						"to": 24546
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " flows",
+					"timestamps": {
+						"from": "00:00:24,566",
+						"to": "00:00:25,179"
+					},
+					"offsets": {
+						"from": 24566,
+						"to": 25179
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:25,179",
+						"to": "00:00:25,199"
+					},
+					"offsets": {
+						"from": 25179,
+						"to": 25199
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1265]",
+					"timestamps": {
+						"from": "00:00:25,300",
+						"to": "00:00:25,300"
+					},
+					"offsets": {
+						"from": 25300,
+						"to": 25300
+					},
+					"id": 51630,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:25,600",
+				"to": "00:00:27,600"
+			},
+			"offsets": {
+				"from": 25600,
+				"to": 27600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:25,600",
+						"to": "00:00:26,055"
+					},
+					"offsets": {
+						"from": 25600,
+						"to": 26055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:26,075",
+						"to": "00:00:26,530"
+					},
+					"offsets": {
+						"from": 26075,
+						"to": 26530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:26,550",
+						"to": "00:00:27,005"
+					},
+					"offsets": {
+						"from": 26550,
+						"to": 27005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:27,025",
+						"to": "00:00:27,480"
+					},
+					"offsets": {
+						"from": 27025,
+						"to": 27480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:27,480",
+						"to": "00:00:27,500"
+					},
+					"offsets": {
+						"from": 27480,
+						"to": 27500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1380]",
+					"timestamps": {
+						"from": "00:00:27,600",
+						"to": "00:00:27,600"
+					},
+					"offsets": {
+						"from": 27600,
+						"to": 27600
+					},
+					"id": 51745,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:27,600",
+				"to": "00:00:28,600"
+			},
+			"offsets": {
+				"from": 27600,
+				"to": 28600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:27,600",
+						"to": "00:00:27,805"
+					},
+					"offsets": {
+						"from": 27600,
+						"to": 27805
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:27,825",
+						"to": "00:00:28,030"
+					},
+					"offsets": {
+						"from": 27825,
+						"to": 28030
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:28,050",
+						"to": "00:00:28,255"
+					},
+					"offsets": {
+						"from": 28050,
+						"to": 28255
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:28,275",
+						"to": "00:00:28,480"
+					},
+					"offsets": {
+						"from": 28275,
+						"to": 28480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:28,480",
+						"to": "00:00:28,500"
+					},
+					"offsets": {
+						"from": 28480,
+						"to": 28500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1430]",
+					"timestamps": {
+						"from": "00:00:28,600",
+						"to": "00:00:28,600"
+					},
+					"offsets": {
+						"from": 28600,
+						"to": 28600
+					},
+					"id": 51795,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:28,600",
+				"to": "00:00:30,600"
+			},
+			"offsets": {
+				"from": 28600,
+				"to": 30600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:28,600",
+						"to": "00:00:29,055"
+					},
+					"offsets": {
+						"from": 28600,
+						"to": 29055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:29,075",
+						"to": "00:00:29,530"
+					},
+					"offsets": {
+						"from": 29075,
+						"to": 29530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:29,550",
+						"to": "00:00:30,005"
+					},
+					"offsets": {
+						"from": 29550,
+						"to": 30005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:30,025",
+						"to": "00:00:30,480"
+					},
+					"offsets": {
+						"from": 30025,
+						"to": 30480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:30,480",
+						"to": "00:00:30,500"
+					},
+					"offsets": {
+						"from": 30480,
+						"to": 30500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1530]",
+					"timestamps": {
+						"from": "00:00:30,600",
+						"to": "00:00:30,600"
+					},
+					"offsets": {
+						"from": 30600,
+						"to": 30600
+					},
+					"id": 51895,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:30,600",
+				"to": "00:00:32,600"
+			},
+			"offsets": {
+				"from": 30600,
+				"to": 32600
+			},
+			"text": " Brown fox naps.",
+			"tokens": [
+				{
+					"text": " Brown",
+					"timestamps": {
+						"from": "00:00:30,600",
+						"to": "00:00:31,213"
+					},
+					"offsets": {
+						"from": 30600,
+						"to": 31213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " fox",
+					"timestamps": {
+						"from": "00:00:31,233",
+						"to": "00:00:31,846"
+					},
+					"offsets": {
+						"from": 31233,
+						"to": 31846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " naps",
+					"timestamps": {
+						"from": "00:00:31,866",
+						"to": "00:00:32,479"
+					},
+					"offsets": {
+						"from": 31866,
+						"to": 32479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:32,479",
+						"to": "00:00:32,499"
+					},
+					"offsets": {
+						"from": 32479,
+						"to": 32499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1630]",
+					"timestamps": {
+						"from": "00:00:32,600",
+						"to": "00:00:32,600"
+					},
+					"offsets": {
+						"from": 32600,
+						"to": 32600
+					},
+					"id": 51995,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:32,600",
+				"to": "00:00:34,600"
+			},
+			"offsets": {
+				"from": 32600,
+				"to": 34600
+			},
+			"text": " Thin cloud drifts.",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:32,600",
+						"to": "00:00:32,600"
+					},
+					"offsets": {
+						"from": 32600,
+						"to": 32600
+					},
+					"id": 50365,
+					"p": 0.89534,
+					"t_dtw": -1
+				},
+				{
+					"text": " Thin",
+					"timestamps": {
+						"from": "00:00:32,600",
+						"to": "00:00:33,213"
+					},
+					"offsets": {
+						"from": 32600,
+						"to": 33213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " cloud",
+					"timestamps": {
+						"from": "00:00:33,233",
+						"to": "00:00:33,846"
+					},
+					"offsets": {
+						"from": 33233,
+						"to": 33846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " drifts",
+					"timestamps": {
+						"from": "00:00:33,866",
+						"to": "00:00:34,479"
+					},
+					"offsets": {
+						"from": 33866,
+						"to": 34479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:34,479",
+						"to": "00:00:34,499"
+					},
+					"offsets": {
+						"from": 34479,
+						"to": 34499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1730]",
+					"timestamps": {
+						"from": "00:00:34,600",
+						"to": "00:00:34,600"
+					},
+					"offsets": {
+						"from": 34600,
+						"to": 34600
+					},
+					"id": 52095,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:34,600",
+				"to": "00:00:35,600"
+			},
+			"offsets": {
+				"from": 34600,
+				"to": 35600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:34,600",
+						"to": "00:00:34,805"
+					},
+					"offsets": {
+						"from": 34600,
+						"to": 34805
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:34,825",
+						"to": "00:00:35,030"
+					},
+					"offsets": {
+						"from": 34825,
+						"to": 35030
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:35,050",
+						"to": "00:00:35,255"
+					},
+					"offsets": {
+						"from": 35050,
+						"to": 35255
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:35,275",
+						"to": "00:00:35,480"
+					},
+					"offsets": {
+						"from": 35275,
+						"to": 35480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:35,480",
+						"to": "00:00:35,500"
+					},
+					"offsets": {
+						"from": 35480,
+						"to": 35500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1780]",
+					"timestamps": {
+						"from": "00:00:35,600",
+						"to": "00:00:35,600"
+					},
+					"offsets": {
+						"from": 35600,
+						"to": 35600
+					},
+					"id": 52145,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:35,600",
+				"to": "00:00:37,600"
+			},
+			"offsets": {
+				"from": 35600,
+				"to": 37600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:35,600",
+						"to": "00:00:36,055"
+					},
+					"offsets": {
+						"from": 35600,
+						"to": 36055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:36,075",
+						"to": "00:00:36,530"
+					},
+					"offsets": {
+						"from": 36075,
+						"to": 36530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:36,550",
+						"to": "00:00:37,005"
+					},
+					"offsets": {
+						"from": 36550,
+						"to": 37005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:37,025",
+						"to": "00:00:37,480"
+					},
+					"offsets": {
+						"from": 37025,
+						"to": 37480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:37,480",
+						"to": "00:00:37,500"
+					},
+					"offsets": {
+						"from": 37480,
+						"to": 37500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1880]",
+					"timestamps": {
+						"from": "00:00:37,600",
+						"to": "00:00:37,600"
+					},
+					"offsets": {
+						"from": 37600,
+						"to": 37600
+					},
+					"id": 52245,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:37,600",
+				"to": "00:00:38,600"
+			},
+			"offsets": {
+				"from": 37600,
+				"to": 38600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:37,600",
+						"to": "00:00:37,805"
+					},
+					"offsets": {
+						"from": 37600,
+						"to": 37805
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:37,825",
+						"to": "00:00:38,030"
+					},
+					"offsets": {
+						"from": 37825,
+						"to": 38030
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:38,050",
+						"to": "00:00:38,255"
+					},
+					"offsets": {
+						"from": 38050,
+						"to": 38255
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:38,275",
+						"to": "00:00:38,480"
+					},
+					"offsets": {
+						"from": 38275,
+						"to": 38480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:38,480",
+						"to": "00:00:38,500"
+					},
+					"offsets": {
+						"from": 38480,
+						"to": 38500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_1930]",
+					"timestamps": {
+						"from": "00:00:38,600",
+						"to": "00:00:38,600"
+					},
+					"offsets": {
+						"from": 38600,
+						"to": 38600
+					},
+					"id": 52295,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:38,600",
+				"to": "00:00:40,600"
+			},
+			"offsets": {
+				"from": 38600,
+				"to": 40600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:38,600",
+						"to": "00:00:39,055"
+					},
+					"offsets": {
+						"from": 38600,
+						"to": 39055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:39,075",
+						"to": "00:00:39,530"
+					},
+					"offsets": {
+						"from": 39075,
+						"to": 39530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:39,550",
+						"to": "00:00:40,005"
+					},
+					"offsets": {
+						"from": 39550,
+						"to": 40005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:40,025",
+						"to": "00:00:40,480"
+					},
+					"offsets": {
+						"from": 40025,
+						"to": 40480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:40,480",
+						"to": "00:00:40,500"
+					},
+					"offsets": {
+						"from": 40480,
+						"to": 40500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2030]",
+					"timestamps": {
+						"from": "00:00:40,600",
+						"to": "00:00:40,600"
+					},
+					"offsets": {
+						"from": 40600,
+						"to": 40600
+					},
+					"id": 52395,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:40,600",
+				"to": "00:00:42,600"
+			},
+			"offsets": {
+				"from": 40600,
+				"to": 42600
+			},
+			"text": " Round moon rises.",
+			"tokens": [
+				{
+					"text": " Round",
+					"timestamps": {
+						"from": "00:00:40,600",
+						"to": "00:00:41,213"
+					},
+					"offsets": {
+						"from": 40600,
+						"to": 41213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " moon",
+					"timestamps": {
+						"from": "00:00:41,233",
+						"to": "00:00:41,846"
+					},
+					"offsets": {
+						"from": 41233,
+						"to": 41846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " rises",
+					"timestamps": {
+						"from": "00:00:41,866",
+						"to": "00:00:42,479"
+					},
+					"offsets": {
+						"from": 41866,
+						"to": 42479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:42,479",
+						"to": "00:00:42,499"
+					},
+					"offsets": {
+						"from": 42479,
+						"to": 42499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2130]",
+					"timestamps": {
+						"from": "00:00:42,600",
+						"to": "00:00:42,600"
+					},
+					"offsets": {
+						"from": 42600,
+						"to": 42600
+					},
+					"id": 52495,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:42,600",
+				"to": "00:00:44,600"
+			},
+			"offsets": {
+				"from": 42600,
+				"to": 44600
+			},
+			"text": " Green door opens.",
+			"tokens": [
+				{
+					"text": " Green",
+					"timestamps": {
+						"from": "00:00:42,600",
+						"to": "00:00:43,213"
+					},
+					"offsets": {
+						"from": 42600,
+						"to": 43213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " door",
+					"timestamps": {
+						"from": "00:00:43,233",
+						"to": "00:00:43,846"
+					},
+					"offsets": {
+						"from": 43233,
+						"to": 43846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " opens",
+					"timestamps": {
+						"from": "00:00:43,866",
+						"to": "00:00:44,479"
+					},
+					"offsets": {
+						"from": 43866,
+						"to": 44479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:44,479",
+						"to": "00:00:44,499"
+					},
+					"offsets": {
+						"from": 44479,
+						"to": 44499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2230]",
+					"timestamps": {
+						"from": "00:00:44,600",
+						"to": "00:00:44,600"
+					},
+					"offsets": {
+						"from": 44600,
+						"to": 44600
+					},
+					"id": 52595,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:44,600",
+				"to": "00:00:46,600"
+			},
+			"offsets": {
+				"from": 44600,
+				"to": 46600
+			},
+			"text": " Green door opens.",
+			"tokens": [
+				{
+					"text": " Green",
+					"timestamps": {
+						"from": "00:00:44,600",
+						"to": "00:00:45,213"
+					},
+					"offsets": {
+						"from": 44600,
+						"to": 45213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " door",
+					"timestamps": {
+						"from": "00:00:45,233",
+						"to": "00:00:45,846"
+					},
+					"offsets": {
+						"from": 45233,
+						"to": 45846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " opens",
+					"timestamps": {
+						"from": "00:00:45,866",
+						"to": "00:00:46,479"
+					},
+					"offsets": {
+						"from": 45866,
+						"to": 46479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:46,479",
+						"to": "00:00:46,499"
+					},
+					"offsets": {
+						"from": 46479,
+						"to": 46499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2330]",
+					"timestamps": {
+						"from": "00:00:46,600",
+						"to": "00:00:46,600"
+					},
+					"offsets": {
+						"from": 46600,
+						"to": 46600
+					},
+					"id": 52695,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:46,600",
+				"to": "00:00:48,600"
+			},
+			"offsets": {
+				"from": 46600,
+				"to": 48600
+			},
+			"text": " Green door opens.",
+			"tokens": [
+				{
+					"text": " Green",
+					"timestamps": {
+						"from": "00:00:46,600",
+						"to": "00:00:47,213"
+					},
+					"offsets": {
+						"from": 46600,
+						"to": 47213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " door",
+					"timestamps": {
+						"from": "00:00:47,233",
+						"to": "00:00:47,846"
+					},
+					"offsets": {
+						"from": 47233,
+						"to": 47846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " opens",
+					"timestamps": {
+						"from": "00:00:47,866",
+						"to": "00:00:48,479"
+					},
+					"offsets": {
+						"from": 47866,
+						"to": 48479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:48,479",
+						"to": "00:00:48,499"
+					},
+					"offsets": {
+						"from": 48479,
+						"to": 48499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2430]",
+					"timestamps": {
+						"from": "00:00:48,600",
+						"to": "00:00:48,600"
+					},
+					"offsets": {
+						"from": 48600,
+						"to": 48600
+					},
+					"id": 52795,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:48,600",
+				"to": "00:00:49,600"
+			},
+			"offsets": {
+				"from": 48600,
+				"to": 49600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:48,600",
+						"to": "00:00:48,805"
+					},
+					"offsets": {
+						"from": 48600,
+						"to": 48805
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:48,825",
+						"to": "00:00:49,030"
+					},
+					"offsets": {
+						"from": 48825,
+						"to": 49030
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:49,050",
+						"to": "00:00:49,255"
+					},
+					"offsets": {
+						"from": 49050,
+						"to": 49255
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:49,275",
+						"to": "00:00:49,480"
+					},
+					"offsets": {
+						"from": 49275,
+						"to": 49480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:49,480",
+						"to": "00:00:49,500"
+					},
+					"offsets": {
+						"from": 49480,
+						"to": 49500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2480]",
+					"timestamps": {
+						"from": "00:00:49,600",
+						"to": "00:00:49,600"
+					},
+					"offsets": {
+						"from": 49600,
+						"to": 49600
+					},
+					"id": 52845,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:49,600",
+				"to": "00:00:51,600"
+			},
+			"offsets": {
+				"from": 49600,
+				"to": 51600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:49,600",
+						"to": "00:00:50,055"
+					},
+					"offsets": {
+						"from": 49600,
+						"to": 50055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:50,075",
+						"to": "00:00:50,530"
+					},
+					"offsets": {
+						"from": 50075,
+						"to": 50530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:50,550",
+						"to": "00:00:51,005"
+					},
+					"offsets": {
+						"from": 50550,
+						"to": 51005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:51,025",
+						"to": "00:00:51,480"
+					},
+					"offsets": {
+						"from": 51025,
+						"to": 51480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:51,480",
+						"to": "00:00:51,500"
+					},
+					"offsets": {
+						"from": 51480,
+						"to": 51500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2580]",
+					"timestamps": {
+						"from": "00:00:51,600",
+						"to": "00:00:51,600"
+					},
+					"offsets": {
+						"from": 51600,
+						"to": 51600
+					},
+					"id": 52945,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:51,600",
+				"to": "00:00:52,600"
+			},
+			"offsets": {
+				"from": 51600,
+				"to": 52600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:51,600",
+						"to": "00:00:51,805"
+					},
+					"offsets": {
+						"from": 51600,
+						"to": 51805
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:51,825",
+						"to": "00:00:52,030"
+					},
+					"offsets": {
+						"from": 51825,
+						"to": 52030
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:52,050",
+						"to": "00:00:52,255"
+					},
+					"offsets": {
+						"from": 52050,
+						"to": 52255
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:52,275",
+						"to": "00:00:52,480"
+					},
+					"offsets": {
+						"from": 52275,
+						"to": 52480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:52,480",
+						"to": "00:00:52,500"
+					},
+					"offsets": {
+						"from": 52480,
+						"to": 52500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2630]",
+					"timestamps": {
+						"from": "00:00:52,600",
+						"to": "00:00:52,600"
+					},
+					"offsets": {
+						"from": 52600,
+						"to": 52600
+					},
+					"id": 52995,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:52,600",
+				"to": "00:00:54,600"
+			},
+			"offsets": {
+				"from": 52600,
+				"to": 54600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:52,600",
+						"to": "00:00:53,055"
+					},
+					"offsets": {
+						"from": 52600,
+						"to": 53055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:53,075",
+						"to": "00:00:53,530"
+					},
+					"offsets": {
+						"from": 53075,
+						"to": 53530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:53,550",
+						"to": "00:00:54,005"
+					},
+					"offsets": {
+						"from": 53550,
+						"to": 54005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:54,025",
+						"to": "00:00:54,480"
+					},
+					"offsets": {
+						"from": 54025,
+						"to": 54480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:54,480",
+						"to": "00:00:54,500"
+					},
+					"offsets": {
+						"from": 54480,
+						"to": 54500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2730]",
+					"timestamps": {
+						"from": "00:00:54,600",
+						"to": "00:00:54,600"
+					},
+					"offsets": {
+						"from": 54600,
+						"to": 54600
+					},
+					"id": 53095,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:54,600",
+				"to": "00:00:55,600"
+			},
+			"offsets": {
+				"from": 54600,
+				"to": 55600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:54,600",
+						"to": "00:00:54,805"
+					},
+					"offsets": {
+						"from": 54600,
+						"to": 54805
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:54,825",
+						"to": "00:00:55,030"
+					},
+					"offsets": {
+						"from": 54825,
+						"to": 55030
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:55,050",
+						"to": "00:00:55,255"
+					},
+					"offsets": {
+						"from": 55050,
+						"to": 55255
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:55,275",
+						"to": "00:00:55,480"
+					},
+					"offsets": {
+						"from": 55275,
+						"to": 55480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:55,480",
+						"to": "00:00:55,500"
+					},
+					"offsets": {
+						"from": 55480,
+						"to": 55500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2780]",
+					"timestamps": {
+						"from": "00:00:55,600",
+						"to": "00:00:55,600"
+					},
+					"offsets": {
+						"from": 55600,
+						"to": 55600
+					},
+					"id": 53145,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:55,600",
+				"to": "00:00:57,600"
+			},
+			"offsets": {
+				"from": 55600,
+				"to": 57600
+			},
+			"text": " Blue lamp hums softly.",
+			"tokens": [
+				{
+					"text": " Blue",
+					"timestamps": {
+						"from": "00:00:55,600",
+						"to": "00:00:56,055"
+					},
+					"offsets": {
+						"from": 55600,
+						"to": 56055
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " lamp",
+					"timestamps": {
+						"from": "00:00:56,075",
+						"to": "00:00:56,530"
+					},
+					"offsets": {
+						"from": 56075,
+						"to": 56530
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " hums",
+					"timestamps": {
+						"from": "00:00:56,550",
+						"to": "00:00:57,005"
+					},
+					"offsets": {
+						"from": 56550,
+						"to": 57005
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " softly",
+					"timestamps": {
+						"from": "00:00:57,025",
+						"to": "00:00:57,480"
+					},
+					"offsets": {
+						"from": 57025,
+						"to": 57480
+					},
+					"id": 403,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:57,480",
+						"to": "00:00:57,500"
+					},
+					"offsets": {
+						"from": 57480,
+						"to": 57500
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2880]",
+					"timestamps": {
+						"from": "00:00:57,600",
+						"to": "00:00:57,600"
+					},
+					"offsets": {
+						"from": 57600,
+						"to": 57600
+					},
+					"id": 53245,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		},
+		{
+			"timestamps": {
+				"from": "00:00:57,600",
+				"to": "00:00:59,600"
+			},
+			"offsets": {
+				"from": 57600,
+				"to": 59600
+			},
+			"text": " Late train waits.",
+			"tokens": [
+				{
+					"text": " Late",
+					"timestamps": {
+						"from": "00:00:57,600",
+						"to": "00:00:58,213"
+					},
+					"offsets": {
+						"from": 57600,
+						"to": 58213
+					},
+					"id": 400,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " train",
+					"timestamps": {
+						"from": "00:00:58,233",
+						"to": "00:00:58,846"
+					},
+					"offsets": {
+						"from": 58233,
+						"to": 58846
+					},
+					"id": 401,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": " waits",
+					"timestamps": {
+						"from": "00:00:58,866",
+						"to": "00:00:59,479"
+					},
+					"offsets": {
+						"from": 58866,
+						"to": 59479
+					},
+					"id": 402,
+					"p": 0.9,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:59,479",
+						"to": "00:00:59,499"
+					},
+					"offsets": {
+						"from": 59479,
+						"to": 59499
+					},
+					"id": 13,
+					"p": 0.95,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_2980]",
+					"timestamps": {
+						"from": "00:00:59,600",
+						"to": "00:00:59,600"
+					},
+					"offsets": {
+						"from": 59600,
+						"to": 59600
+					},
+					"id": 53345,
+					"p": 0.4484,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}

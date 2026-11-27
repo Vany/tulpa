@@ -7,13 +7,15 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.89"
 license = "MIT"
-repository = "https://github.com/Vany/tulpa"
 keywords = ["macos", "agent", "ssh"]
 categories = ["os::macos-apis"]
 publish = false
 
 [workspace.lints.rust]
-unsafe_code = "forbid"
+# Deny, not forbid: two places opt in (`#![expect(unsafe_code)]`), every block with a SAFETY comment
+# (undocumented_unsafe_blocks): tulpa-audio-events, for CoreAudio's C listener API, and the measurement example
+# crates/tulpa-hear/examples/switch_gap.rs (shipped in no binary). Anywhere else `unsafe` is an error.
+unsafe_code = "deny"
 unsafe_op_in_unsafe_fn = "deny"
 missing_docs = "warn"
 missing_debug_implementations = "warn"

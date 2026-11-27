@@ -1,0 +1,228 @@
+{
+	"systeminfo": "WHISPER : VITISAI = 0 | COREML = 0 | OPENVINO = 0 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "large",
+		"multilingual": true,
+		"vocab": 51866,
+		"audio": {
+			"ctx": 1500,
+			"state": 1280,
+			"head": 20,
+			"layer": 32
+		},
+		"text": {
+			"ctx": 448,
+			"state": 1280,
+			"head": 20,
+			"layer": 4
+		},
+		"mels": 128,
+		"ftype": 8
+	},
+	"params": {
+		"model": "/Users/Shared/.cache/PLACEHOLDER/ggml-large-v3-turbo-q5_0.bin",
+		"language": "ru",
+		"translate": false
+	},
+	"result": {
+		"language": "ru"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,190",
+				"to": "00:00:01,500"
+			},
+			"offsets": {
+				"from": 190,
+				"to": 1500
+			},
+			"text": " Проверка двери. 1-2.",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 50365,
+					"p": 0.983046,
+					"t_dtw": -1
+				},
+				{
+					"text": " П",
+					"timestamps": {
+						"from": "00:00:00,030",
+						"to": "00:00:00,030"
+					},
+					"offsets": {
+						"from": 30,
+						"to": 30
+					},
+					"id": 2608,
+					"p": 0.915854,
+					"t_dtw": -1
+				},
+				{
+					"text": "ров",
+					"timestamps": {
+						"from": "00:00:00,030",
+						"to": "00:00:00,130"
+					},
+					"offsets": {
+						"from": 30,
+						"to": 130
+					},
+					"id": 6680,
+					"p": 0.999388,
+					"t_dtw": -1
+				},
+				{
+					"text": "ер",
+					"timestamps": {
+						"from": "00:00:00,130",
+						"to": "00:00:00,190"
+					},
+					"offsets": {
+						"from": 130,
+						"to": 190
+					},
+					"id": 1135,
+					"p": 0.999838,
+					"t_dtw": -1
+				},
+				{
+					"text": "ка",
+					"timestamps": {
+						"from": "00:00:00,190",
+						"to": "00:00:00,240"
+					},
+					"offsets": {
+						"from": 190,
+						"to": 240
+					},
+					"id": 2833,
+					"p": 0.999947,
+					"t_dtw": -1
+				},
+				{
+					"text": " дв",
+					"timestamps": {
+						"from": "00:00:00,270",
+						"to": "00:00:00,320"
+					},
+					"offsets": {
+						"from": 270,
+						"to": 320
+					},
+					"id": 7196,
+					"p": 0.999853,
+					"t_dtw": -1
+				},
+				{
+					"text": "ери",
+					"timestamps": {
+						"from": "00:00:00,320",
+						"to": "00:00:00,420"
+					},
+					"offsets": {
+						"from": 320,
+						"to": 420
+					},
+					"id": 18019,
+					"p": 0.99991,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:00,420",
+						"to": "00:00:00,560"
+					},
+					"offsets": {
+						"from": 420,
+						"to": 560
+					},
+					"id": 13,
+					"p": 0.937442,
+					"t_dtw": -1
+				},
+				{
+					"text": " 1",
+					"timestamps": {
+						"from": "00:00:00,560",
+						"to": "00:00:00,590"
+					},
+					"offsets": {
+						"from": 560,
+						"to": 590
+					},
+					"id": 502,
+					"p": 0.683416,
+					"t_dtw": -1
+				},
+				{
+					"text": "-",
+					"timestamps": {
+						"from": "00:00:00,850",
+						"to": "00:00:00,850"
+					},
+					"offsets": {
+						"from": 850,
+						"to": 850
+					},
+					"id": 12,
+					"p": 0.64918,
+					"t_dtw": -1
+				},
+				{
+					"text": "2",
+					"timestamps": {
+						"from": "00:00:00,930",
+						"to": "00:00:01,070"
+					},
+					"offsets": {
+						"from": 930,
+						"to": 1070
+					},
+					"id": 17,
+					"p": 0.999024,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:01,070",
+						"to": "00:00:01,300"
+					},
+					"offsets": {
+						"from": 1070,
+						"to": 1300
+					},
+					"id": 13,
+					"p": 0.956021,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_65]",
+					"timestamps": {
+						"from": "00:00:01,300",
+						"to": "00:00:01,300"
+					},
+					"offsets": {
+						"from": 1300,
+						"to": 1300
+					},
+					"id": 50430,
+					"p": 0.465716,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}
+
